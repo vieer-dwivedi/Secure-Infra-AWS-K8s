@@ -3,7 +3,6 @@ name: Infrastructure deployment
 on:
   push:
     branches:
-      - sagar-*
       - main
   pull_request:
     branches:
