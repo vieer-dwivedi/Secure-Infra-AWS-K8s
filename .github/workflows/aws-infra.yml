@@ -74,5 +74,5 @@ jobs:
           RESOURCE_PREFIX: ${{ env.resource_prefix }}
           ENVIRONMENT: ${{ env.environment }}
         run: |
-          cd ./infra/environments/${{ env.environment }}
+          cd ./infra/environments/dev
           terragrunt run-all destroy --terragrunt-non-interactive
