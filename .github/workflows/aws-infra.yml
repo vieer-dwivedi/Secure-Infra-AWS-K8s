@@ -28,7 +28,7 @@ permissions:
   contents: read
 
 env:
-  bucket_name: ${{ github.event.inputs.prefix }}-${{ github.event.inputs.service }}-${{ github.event.inputs.environment }}
+  bucket_name: ${{ github.event.inputs.resource_prefix }}-${{ github.event.inputs.aws_service }}-${{ github.event.inputs.environment }}
   environment: ${{ github.event.inputs.environment }}
 
 jobs:
@@ -77,5 +77,5 @@ jobs:
           BUCKET_NAME: ${{ env.bucket_name }}
           ENVIRONMENT: ${{ env.environment }}
         run: |
-          cd ./infra/environments/dev
+          cd ./infra/environments/${{ env.environment }}
           terragrunt run-all destroy --terragrunt-non-interactive
