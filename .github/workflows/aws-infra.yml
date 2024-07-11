@@ -14,10 +14,6 @@ on:
         description: 'Prefix for resource name'
         required: true
         default: 'v2-boilerplate'
-      aws_service:
-        description: 'Service name'
-        required: true
-        default: 's3'
       environment:
         description: 'Environment name'
         required: true
@@ -28,7 +24,8 @@ permissions:
   contents: read
 
 env:
-  bucket_name: ${{ github.event.inputs.resource_prefix }}-${{ github.event.inputs.aws_service }}-${{ github.event.inputs.environment }}
+  # bucket_name: ${{ github.event.inputs.resource_prefix }}-${{ github.event.inputs.aws_service }}-${{ github.event.inputs.environment }}
+  resource_prefix: ${{ github.event.inputs.resource_prefix }}
   environment: ${{ github.event.inputs.environment }}
 
 jobs:
@@ -74,7 +71,7 @@ jobs:
 
       - name: Terragrunt Apply
         env:
-          BUCKET_NAME: ${{ env.bucket_name }}
+          RESOURCE_PREFIX: ${{ env.resource_prefix }}
           ENVIRONMENT: ${{ env.environment }}
         run: |
           cd ./infra/environments/${{ env.environment }}
