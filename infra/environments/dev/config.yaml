@@ -1,0 +1,87 @@
+tags: &tags
+  Terraform: "true"
+  Environment: "dev"
+  Owner: "v2-devops"
+  Project: "v2-boilerplate"
+
+s3:
+  bucket_name: "s3-dev"
+  versioning_enabled: false
+
+vpc:
+  name: threetier
+  cdir: "10.0.0.0/16"
+  azs :
+    - a
+    - b
+    - c
+  private_subnets:
+    - "10.0.1.0/24"
+    - "10.0.2.0/24"
+    - "10.0.3.0/24"
+  public_subnets:
+    - "10.0.101.0/24"
+    - "10.0.102.0/24"
+    - "10.0.103.0/24"
+  single_nat_gateway: true
+  enable_nat_gateway: false
+  tags: *tags
+  map_public_ip_on_launch: true
+
+
+eks:
+  cluster_name: "cluster-dev"
+  create_iam_role : true
+  deploy_worker_in_private_subnet : false
+  deploy_cluster_in_private_subnet: false
+  include_oidc_root_ca_thumbprint : true
+  enable_cluster_creator_admin_permissions : true
+  kms_key_owners:
+    - "user/vieer.dubey@v2solutions.com"
+  cluster_version: 1.29
+  create_cloudwatch_log_group  : true
+  cluster_endpoint_public_access: true
+  cluster_addons:
+    coredns:
+      most_recent: true
+    kube-proxy:
+      most_recent: true
+    vpc-cni:
+      most_recent: true
+
+  eks_managed_node_group_defaults : 
+    instance_types:
+    - "t3a.medium"
+  eks_managed_node_groups:
+    app:
+      min_size: 1
+      max_size : 10
+      desired_size : 1
+      instance_types :
+      - t3.medium
+      capacity_type : SPOT
+  tags: *tags
+  access_entries:
+    my_user_access:
+      kubernetes_groups:
+        - "*"
+      principal_arn: "arn:aws:iam::370180090626:user/terraform"
+      policy_associations:
+        admin:
+          policy_arn: "arn:aws:iam::370180090626:policy/AmazonEKSViewPolicy"
+          access_scope:
+            namespaces:
+              - "default"
+            type: "namespace"
+
+prometheus:
+  deployment_name: prometheus
+  config_file: prometheus.yml
+  repository_link: https://prometheus-community.github.io/helm-charts
+  chart_name: prometheus
+
+grafana:
+  deployment_name: grafana
+  config_file: grafana.yml
+  repository_link: https://grafana.github.io/helm-charts
+  chart_name: grafana

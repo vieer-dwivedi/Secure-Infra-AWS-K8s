@@ -1,6 +1,6 @@
 locals {
-    env = "dev"
+    env = get_env("ENVIRONMENT", "default_env")
 }
 // locals {
-//     env = get_env("ENVIRONMENT", "default_env")
+//     env = "dev"
 // }

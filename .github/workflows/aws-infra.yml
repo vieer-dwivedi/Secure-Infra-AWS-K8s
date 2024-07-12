@@ -22,10 +22,10 @@ permissions:
   id-token: write
   contents: read
 
-# env:
-#   # bucket_name: ${{ github.event.inputs.resource_prefix }}-${{ github.event.inputs.aws_service }}-${{ github.event.inputs.environment }}
-#   resource_prefix: ${{ github.event.inputs.resource_prefix }}
-#   environment: ${{ github.event.inputs.environment }}
+env:
+  resource_prefix: ${{ github.event.inputs.resource_prefix }}
+  environment: ${{ github.event.inputs.environment }}
+  account_id: "370180090626"
 
 jobs:
   build:
@@ -49,7 +49,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_SAGAR }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_SAGAR }}
-          aws-region: us-east-2
+          aws-region: us-west-2
 
       - name: Setup Terraform v1.7.4
         uses: hashicorp/setup-terraform@v1
@@ -69,9 +69,12 @@ jobs:
           terragrunt-version: 0.55.10
 
       - name: Terragrunt Apply
-        # env:
-        #   RESOURCE_PREFIX: ${{ env.resource_prefix }}
-        #   ENVIRONMENT: ${{ env.environment }}
+        env:
+          RESOURCE_PREFIX: ${{ env.resource_prefix }}
+          ENVIRONMENT: ${{ env.environment }}
+          ACCOUNT_ID: ${{ env.account_id }}
         run: |
-          cd ./infra/environments/dev
-          terragrunt run-all destroy --terragrunt-non-interactive
+          echo $RESOURCE_PREFIX
+          echo $ENVIRONMENT
+          cd ./infra/environments/${{ env.environment }}
+          terragrunt run-all apply --terragrunt-non-interactive
