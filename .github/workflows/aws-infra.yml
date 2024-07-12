@@ -1,22 +1,22 @@
 name: Infrastructure deployment
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-  # workflow_dispatch:
-  #   inputs:
-  #     resource_prefix:
-  #       description: 'Prefix for resource name'
-  #       required: true
-  #       default: 'v2-boilerplate'
-  #     environment:
-  #       description: 'Environment name'
-  #       required: true
-  #       default: 'dev'
+  # push:
+  #   branches:
+  #     - main
+  # pull_request:
+  #   branches:
+  #     - main
+  workflow_dispatch:
+    inputs:
+      resource_prefix:
+        description: 'Prefix for resource name'
+        required: true
+        default: 'v2-boilerplate'
+      environment:
+        description: 'Environment name'
+        required: true
+        default: 'dev'
 
 permissions:
   id-token: write
