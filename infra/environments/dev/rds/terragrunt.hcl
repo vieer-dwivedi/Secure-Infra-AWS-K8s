@@ -5,7 +5,8 @@ include "root"{
 	path = find_in_parent_folders()
 }
 locals {
-  config = yamldecode(file("${find_in_parent_folders("config.yaml")}"))
+  config_path = "${get_terragrunt_dir()}/../config.yml"
+  config = yamldecode(file(local.config_path))
 }
 dependency "network" {
   config_path = "../vpc"
