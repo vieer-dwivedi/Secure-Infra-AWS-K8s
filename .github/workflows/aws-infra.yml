@@ -25,7 +25,6 @@ permissions:
 env:
   resource_prefix: ${{ github.event.inputs.resource_prefix }}
   environment: ${{ github.event.inputs.environment }}
-  account_id: "370180090626"
 
 jobs:
   build:
@@ -67,14 +66,60 @@ jobs:
         uses: autero1/action-terragrunt@v3
         with:
           terragrunt-version: 0.55.10
+      
+      - name: Get AWS Account ID
+        id: aws-account-id
+        run: |
+          ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+          echo "ACCOUNT_ID=${ACCOUNT_ID}" >> $GITHUB_ENV
+      
+      - name: Make preprocess-config.sh executable
+        run: chmod +x ./scripts/preprocess-config.sh
+      
+      - name: Preprocess config.yml for dev
+        env:
+          RESOURCE_PREFIX: ${{ env.resource_prefix }}
+          ENVIRONMENT: ${{ env.environment }}
+          ACCOUNT_ID: ${{ env.ACCOUNT_ID }}
+        run: |
+          export RESOURCE_PREFIX=${{ env.RESOURCE_PREFIX }}
+          export ENVIRONMENT=${{ env.ENVIRONMENT }}
+          export ACCOUNT_ID=${{ env.ACCOUNT_ID }}
+          ./scripts/preprocess-config.sh ./infra/config.yml.template ./infra/environments/${{ env.ENVIRONMENT }}/config.yml
+      
+      # **********Debug Steps***********Uncomment when required*********
+      # - name: List files in environments directory
+      #   run: ls -R ./infra/environments
+
+      # - name: cat config.yml
+      #   run: cat ./infra/environments/dev/config.yml
+
+      # - name: Verify config.yml
+      #   env:
+      #       ENVIRONMENT: ${{ env.environment }}
+      #   run: |
+      #     echo "Contents of config.yml:"
+      #     cat ./infra/environments/${{ env.ENVIRONMENT }}/config.yml
+      #     echo "Location of config.yml:"
+      #     ls -l ./infra/environments/${{ env.ENVIRONMENT }}/config.yml
+
+      # - name: Debug CloudFront module directory
+      #   env:
+      #         ENVIRONMENT: ${{ env.environment }}
+      #   run: |
+      #     echo "Contents of CloudFront module directory:"
+      #     ls -R ./infra/environments/${{ env.ENVIRONMENT }}/cloudfront
+      #     echo "Current working directory:"
+      #     pwd
 
       - name: Terragrunt Apply
         env:
           RESOURCE_PREFIX: ${{ env.resource_prefix }}
           ENVIRONMENT: ${{ env.environment }}
-          ACCOUNT_ID: ${{ env.account_id }}
+          ACCOUNT_ID: ${{ env.ACCOUNT_ID }}
         run: |
           echo $RESOURCE_PREFIX
           echo $ENVIRONMENT
+          echo $ACCOUNT_ID
           cd ./infra/environments/${{ env.environment }}
           terragrunt run-all apply --terragrunt-non-interactive

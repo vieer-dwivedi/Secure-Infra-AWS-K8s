@@ -1,17 +1,17 @@
 tags: &tags
   Terraform: "true"
-  Environment: "dev"
+  Environment: "${ENVIRONMENT}"
   Owner: "v2-devops"
   Project: "v2-boilerplate"
 
 s3:
-  bucket_name: "s3-dev"
+  bucket_name: "${RESOURCE_PREFIX}-s3-${ENVIRONMENT}"
   versioning_enabled: false
 
 vpc:
   name: threetier
   cdir: "10.0.0.0/16"
-  azs :
+  azs:
     - a
     - b
     - c
@@ -28,18 +28,17 @@ vpc:
   tags: *tags
   map_public_ip_on_launch: true
 
-
 eks:
-  cluster_name: "cluster-dev"
-  create_iam_role : true
-  deploy_worker_in_private_subnet : false
+  cluster_name: "${RESOURCE_PREFIX}-cluster-${ENVIRONMENT}"
+  create_iam_role: true
+  deploy_worker_in_private_subnet: false
   deploy_cluster_in_private_subnet: false
-  include_oidc_root_ca_thumbprint : true
-  enable_cluster_creator_admin_permissions : true
+  include_oidc_root_ca_thumbprint: true
+  enable_cluster_creator_admin_permissions: true
   kms_key_owners:
     - "user/vieer.dubey@v2solutions.com"
   cluster_version: 1.29
-  create_cloudwatch_log_group  : true
+  create_cloudwatch_log_group: true
   cluster_endpoint_public_access: true
   cluster_addons:
     coredns:
@@ -49,26 +48,26 @@ eks:
     vpc-cni:
       most_recent: true
 
-  eks_managed_node_group_defaults : 
+  eks_managed_node_group_defaults:
     instance_types:
     - "t3a.medium"
   eks_managed_node_groups:
     app:
       min_size: 1
-      max_size : 10
-      desired_size : 1
-      instance_types :
+      max_size: 10
+      desired_size: 1
+      instance_types:
       - t3.medium
-      capacity_type : SPOT
+      capacity_type: SPOT
   tags: *tags
   access_entries:
     my_user_access:
       kubernetes_groups:
         - "*"
-      principal_arn: "arn:aws:iam::370180090626:user/terraform"
+      principal_arn: "arn:aws:iam::${ACCOUNT_ID}:user/terraform"
       policy_associations:
         admin:
-          policy_arn: "arn:aws:iam::370180090626:policy/AmazonEKSViewPolicy"
+          policy_arn: "arn:aws:iam::${ACCOUNT_ID}:policy/AmazonEKSViewPolicy"
           access_scope:
             namespaces:
               - "default"

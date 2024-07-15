@@ -4,10 +4,13 @@ terraform {
 include "root"{
 	path = find_in_parent_folders()
 }
+
 locals {
-  config = yamldecode(file("${find_in_parent_folders("config.yaml")}"))
-  kms_users = [for users_or_role in local.config.eks.kms_key_owners : "arn:aws:iam::${get_aws_account_id()}:${users_or_role}"]
+    config_path = "${get_terragrunt_dir()}/../config.yml"
+    config = yamldecode(file(local.config_path))
+    kms_users = [for users_or_role in local.config.eks.kms_key_owners : "arn:aws:iam::${get_aws_account_id()}:${users_or_role}"]
 }
+
 dependency "network" {
   config_path = "../vpc"
   mock_outputs = {
@@ -17,7 +20,8 @@ dependency "network" {
   }
 }
 inputs = { 
-  cluster_name    = "${get_env("RESOURCE_PREFIX", "")}-${local.config.eks.cluster_name}"
+  // cluster_name    = "${get_env("RESOURCE_PREFIX", "")}-${local.config.eks.cluster_name}"
+  cluster_name    = local.config.eks.cluster_name
   cluster_version = local.config.eks.cluster_version
   create_cloudwatch_log_group = local.config.eks.create_cloudwatch_log_group
   cluster_endpoint_public_access  = local.config.eks.cluster_endpoint_public_access
