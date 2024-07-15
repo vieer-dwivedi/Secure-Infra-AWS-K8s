@@ -122,4 +122,4 @@ jobs:
           echo $ENVIRONMENT
           echo $ACCOUNT_ID
           cd ./infra/environments/${{ env.environment }}
-          terragrunt run-all apply --terragrunt-non-interactive
+          terragrunt run-all destroy --terragrunt-non-interactive

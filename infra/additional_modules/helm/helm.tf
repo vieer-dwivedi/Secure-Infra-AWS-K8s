@@ -37,6 +37,10 @@ variable "parameters" {
     key   = string
     value = string
   }))
+  default = [ {
+    key = "value"
+    value = "value"
+  } ]
 }
 variable "cluster_name" {
   type = string
