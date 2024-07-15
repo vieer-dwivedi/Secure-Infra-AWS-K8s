@@ -7,6 +7,7 @@ tags: &tags
 s3:
   bucket_name: "${RESOURCE_PREFIX}-s3-${ENVIRONMENT}"
   versioning_enabled: false
+  tags: *tags
 
 vpc:
   name: threetier

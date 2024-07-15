@@ -19,7 +19,7 @@ dependency "eks" {
 inputs = {
   create_custom_policy = false
   create_addon = false
-  cluster_name = "${get_env("RESOURCE_PREFIX", "")}-${local.config.eks.cluster_name}"
+  cluster_name = local.config.eks.cluster_name
   role_name            = "${local.config.eks.cluster_name}-application-role"
   managed_policy_arns  = ["arn:aws:iam::aws:policy/SecretsManagerReadWrite"]
   oidc_arn             = dependency.eks.outputs.oidc_provider_arn

@@ -20,7 +20,7 @@ dependency "eks" {
 inputs = {
   create_custom_policy = false
   create_addon = false
-  cluster_name = "${get_env("RESOURCE_PREFIX", "")}-${local.config.eks.cluster_name}"
+  cluster_name = local.config.eks.cluster_name
   attach_role = true
   role_name            = "${local.config.eks.cluster_name}-ebs-role"
   managed_policy_arns  = ["arn:aws:iam::aws:policy/ElasticLoadBalancingFullAccess"]
