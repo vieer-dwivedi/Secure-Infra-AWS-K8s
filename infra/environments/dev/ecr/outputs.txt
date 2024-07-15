@@ -1,0 +1,4 @@
+repository_arn = "arn:aws:ecr:us-west-2:370180090626:repository/v2boliersplate"
+repository_name = "v2boliersplate"
+repository_registry_id = "370180090626"
+repository_url = "370180090626.dkr.ecr.us-west-2.amazonaws.com/v2boliersplate"

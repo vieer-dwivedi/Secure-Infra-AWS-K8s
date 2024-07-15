@@ -1,0 +1,81 @@
+additional_cluster_endpoints = {}
+cluster_arn = "arn:aws:rds:us-west-2:370180090626:cluster:database"
+cluster_database_name = "mydb"
+cluster_endpoint = "database.cluster-ch4kggkegat9.us-west-2.rds.amazonaws.com"
+cluster_engine_version_actual = "15.4"
+cluster_hosted_zone_id = "Z1PVIF0B656C1W"
+cluster_id = "database"
+cluster_instances = {
+  "one" = {
+    "apply_immediately" = true
+    "arn" = "arn:aws:rds:us-west-2:370180090626:db:database-one"
+    "auto_minor_version_upgrade" = true
+    "availability_zone" = "us-west-2c"
+    "ca_cert_identifier" = "rds-ca-rsa2048-g1"
+    "cluster_identifier" = "database"
+    "copy_tags_to_snapshot" = false
+    "custom_iam_instance_profile" = ""
+    "db_parameter_group_name" = "default.aurora-postgresql15"
+    "db_subnet_group_name" = "application"
+    "dbi_resource_id" = "db-DLVB3YD4SGQFGYNTV6VELDKK5E"
+    "endpoint" = "database-one.ch4kggkegat9.us-west-2.rds.amazonaws.com"
+    "engine" = "aurora-postgresql"
+    "engine_version" = "15.4"
+    "engine_version_actual" = "15.4"
+    "id" = "database-one"
+    "identifier" = "database-one"
+    "identifier_prefix" = ""
+    "instance_class" = "db.t3.medium"
+    "kms_key_id" = "arn:aws:kms:us-west-2:370180090626:key/2a0e595b-c7e8-446a-a429-c2f07dea89fd"
+    "monitoring_interval" = 1
+    "monitoring_role_arn" = "arn:aws:iam::370180090626:role/terraform-20240713091454151600000002"
+    "network_type" = "IPV4"
+    "performance_insights_enabled" = false
+    "performance_insights_kms_key_id" = ""
+    "performance_insights_retention_period" = 0
+    "port" = 5432
+    "preferred_backup_window" = "02:00-03:00"
+    "preferred_maintenance_window" = "sun:05:00-sun:06:00"
+    "promotion_tier" = 0
+    "publicly_accessible" = true
+    "storage_encrypted" = true
+    "tags" = tomap({
+      "Environment" = "dev"
+      "Owner" = "v2-devops"
+      "Project" = "v2-boilerplate"
+      "Terraform" = "true"
+    })
+    "tags_all" = tomap({
+      "Environment" = "dev"
+      "Owner" = "v2-devops"
+      "Project" = "v2-boilerplate"
+      "Terraform" = "true"
+    })
+    "timeouts" = {
+      "create" = tostring(null)
+      "delete" = tostring(null)
+      "update" = tostring(null)
+    }
+    "writer" = true
+  }
+}
+cluster_master_user_secret = tolist([
+  {
+    "kms_key_id" = "arn:aws:kms:us-west-2:370180090626:key/c0740d80-b60a-4558-b11e-cfaeb8aa8f9b"
+    "secret_arn" = "arn:aws:secretsmanager:us-west-2:370180090626:secret:rds!cluster-ff153685-b196-4364-bf46-6a2bea942b86-9cqw2V"
+    "secret_status" = "active"
+  },
+])
+cluster_master_username = <sensitive>
+cluster_members = toset([])
+cluster_port = 5432
+cluster_reader_endpoint = "database.cluster-ro-ch4kggkegat9.us-west-2.rds.amazonaws.com"
+cluster_resource_id = "cluster-4OY4NBMV6GBKLKI5HVRQILOYIQ"
+cluster_role_associations = {}
+db_cluster_cloudwatch_log_groups = {}
+db_cluster_secretsmanager_secret_rotation_enabled = true
+db_subnet_group_name = "application"
+enhanced_monitoring_iam_role_arn = "arn:aws:iam::370180090626:role/terraform-20240713091454151600000002"
+enhanced_monitoring_iam_role_name = "terraform-20240713091454151600000002"
+enhanced_monitoring_iam_role_unique_id = "AROAVMMDT5MBJY4NWNFKI"
+security_group_id = "sg-023e30304c739948b"

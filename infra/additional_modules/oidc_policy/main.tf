@@ -42,3 +42,7 @@ resource "aws_eks_addon" "this" {
   service_account_role_arn = var.attach_role ? aws_iam_role.this.arn : null
 
 }
+
+output "role_arn" {
+  value = aws_iam_role.this.arn
+}

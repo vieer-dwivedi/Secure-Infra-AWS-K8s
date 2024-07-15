@@ -84,3 +84,61 @@ grafana:
   config_file: grafana.yml
   repository_link: https://grafana.github.io/helm-charts
   chart_name: grafana
+
+loadbalancer_controler:
+  deployment_name: loadbalancer
+  config_file: values.yml
+  repository_link: https://aws.github.io/eks-charts
+  chart_name: aws-load-balancer-controller
+  parameters: 
+    - key: clusterName
+      value: *cluster_name
+    - key: replicaCount
+      value: "1"
+
+rds:
+  name: "databases" #cluster name
+  publicly_accessible: false
+  engine: "aurora-postgresql"
+  engine_version: "15.4"
+  instance_class: "db.t3.medium"
+  instance_type: "db.t3.medium"
+  db_subnet_group_name: "applicatiosns"
+  create_db_subnet_group: true
+  instances:
+    one:
+      instance_class: "db.t3.medium"
+  database_name: "mydb"
+  master_username: "team"
+  storage_encrypted: true
+  apply_immediately: true
+  monitoring_interval: 1
+  manage_master_user_password: true
+  manage_master_user_password_rotation: true
+  master_user_password_rotation_automatically_after_days: 1
+  master_user_password_rotate_immediately: true
+  tags: *tags
+
+
+ecr:
+  repository_name: v2boliersplate
+  repository_lifecycle_policy: |
+      {
+        "rules": [
+          {
+            "rulePriority": 1,
+            "description": "Keep last 30 images",
+            "selection": {
+              "tagStatus": "tagged",
+              "tagPrefixList": ["v"],
+              "countType": "imageCountMoreThan",
+              "countNumber": 30
+            },
+            "action": {
+              "type": "expire"
+            }
+          }
+        ]
+      }
+
+  tags: *tags

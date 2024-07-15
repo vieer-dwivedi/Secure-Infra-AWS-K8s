@@ -11,14 +11,32 @@ provider "helm" {
 }
 
 resource "helm_release" "this" {
-  name       = var.deployment_name
-  repository = var.repository_link
-  chart      = var.chart_name
-  values = var.values
+  name             = var.deployment_name
+  repository       = var.repository_link
+  chart            = var.chart_name
+  values           = var.values
+  namespace        = var.namespace
+  create_namespace = var.create_namespace
+  
+  dynamic "set" {
+    for_each = var.parameters
+    iterator = itt
+    content {
+      name  = itt.value.key
+      value = itt.value.value
+    }
+  }
 }
 
 data "aws_eks_cluster" "cluster" {
   name = var.cluster_name
+}
+
+variable "parameters" {
+  type = list(object({
+    key   = string
+    value = string
+  }))
 }
 variable "cluster_name" {
   type = string
@@ -34,4 +52,12 @@ variable "chart_name" {
 }
 variable "values" {
   type = list(string)
+}
+variable "namespace" {
+  type = string
+  default = "kube-system"
+}
+variable "create_namespace" {
+  type = bool
+  default = false
 }
