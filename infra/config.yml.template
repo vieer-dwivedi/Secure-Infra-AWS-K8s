@@ -93,12 +93,12 @@ loadbalancer_controler:
   chart_name: aws-load-balancer-controller
   parameters: 
     - key: clusterName
-      value: *cluster_name
+      value: "${RESOURCE_PREFIX}-cluster-${ENVIRONMENT}"
     - key: replicaCount
       value: "1"
 
 rds:
-  name: "databases" #cluster name
+  name: "databases"
   publicly_accessible: false
   engine: "aurora-postgresql"
   engine_version: "15.4"

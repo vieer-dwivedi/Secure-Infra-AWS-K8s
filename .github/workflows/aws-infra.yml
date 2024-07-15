@@ -94,23 +94,23 @@ jobs:
       # - name: cat config.yml
       #   run: cat ./infra/environments/dev/config.yml
 
-      # - name: Verify config.yml
-      #   env:
-      #       ENVIRONMENT: ${{ env.environment }}
-      #   run: |
-      #     echo "Contents of config.yml:"
-      #     cat ./infra/environments/${{ env.ENVIRONMENT }}/config.yml
-      #     echo "Location of config.yml:"
-      #     ls -l ./infra/environments/${{ env.ENVIRONMENT }}/config.yml
+      - name: Verify config.yml
+        env:
+            ENVIRONMENT: ${{ env.environment }}
+        run: |
+          echo "Contents of config.yml:"
+          cat ./infra/environments/${{ env.ENVIRONMENT }}/config.yml
+          echo "Location of config.yml:"
+          ls -l ./infra/environments/${{ env.ENVIRONMENT }}/config.yml
 
-      # - name: Debug CloudFront module directory
-      #   env:
-      #         ENVIRONMENT: ${{ env.environment }}
-      #   run: |
-      #     echo "Contents of CloudFront module directory:"
-      #     ls -R ./infra/environments/${{ env.ENVIRONMENT }}/cloudfront
-      #     echo "Current working directory:"
-      #     pwd
+      - name: Debug CloudFront module directory
+        env:
+              ENVIRONMENT: ${{ env.environment }}
+        run: |
+          echo "Contents of CloudFront module directory:"
+          ls -R ./infra/environments/${{ env.ENVIRONMENT }}/cloudfront
+          echo "Current working directory:"
+          pwd
 
       - name: Terragrunt Apply
         env:

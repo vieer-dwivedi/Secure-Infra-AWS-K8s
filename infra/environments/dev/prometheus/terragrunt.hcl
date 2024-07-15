@@ -17,7 +17,6 @@ dependency "ebs" {
   }
 }
 inputs = {
-  // cluster_name = "${get_env("RESOURCE_PREFIX", "")}-${local.config.eks.cluster_name}"
   cluster_name = local.config.eks.cluster_name
   deployment_name = local.config.prometheus.deployment_name
   repository_link = local.config.prometheus.repository_link
