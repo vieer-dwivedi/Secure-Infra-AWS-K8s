@@ -10,7 +10,7 @@ s3:
   tags: *tags
 
 vpc:
-  name: threetier
+  name: "${RESOURCE_PREFIX}-vpc-${ENVIRONMENT}"
   cdir: "10.0.0.0/16"
   azs:
     - a
@@ -75,19 +75,19 @@ eks:
             type: "namespace"
 
 prometheus:
-  deployment_name: prometheus
+  deployment_name: "${RESOURCE_PREFIX}-prometheus-${ENVIRONMENT}"
   config_file: prometheus.yml
   repository_link: https://prometheus-community.github.io/helm-charts
   chart_name: prometheus
 
 grafana:
-  deployment_name: grafana
+  deployment_name: "${RESOURCE_PREFIX}-grafana-${ENVIRONMENT}"
   config_file: grafana.yml
   repository_link: https://grafana.github.io/helm-charts
   chart_name: grafana
 
 loadbalancer_controler:
-  deployment_name: loadbalancer
+  deployment_name: "${RESOURCE_PREFIX}-lb-${ENVIRONMENT}"
   config_file: values.yml
   repository_link: https://aws.github.io/eks-charts
   chart_name: aws-load-balancer-controller
@@ -98,7 +98,7 @@ loadbalancer_controler:
       value: "1"
 
 rds:
-  name: "databases"
+  name: "${RESOURCE_PREFIX}-db-${ENVIRONMENT}"
   publicly_accessible: false
   engine: "aurora-postgresql"
   engine_version: "15.4"
@@ -122,7 +122,7 @@ rds:
 
 
 ecr:
-  repository_name: v2boliersplate
+  repository_name: "${RESOURCE_PREFIX}-ecr-${ENVIRONMENT}"
   repository_lifecycle_policy: |
       {
         "rules": [
