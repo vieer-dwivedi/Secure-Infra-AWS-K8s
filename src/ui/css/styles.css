@@ -16,13 +16,16 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    background-image: url('devops-background.jpg'); /* Replace with your background image */
+    background-size: cover;
+    background-position: center;
 }
 
 .container {
     width: 100%;
     max-width: 800px;
     padding: 20px;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     text-align: center;
@@ -46,7 +49,8 @@ header p {
 .data-section {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start; /* Align items at the top */
+    align-items: flex-start;
+    margin-bottom: 20px;
 }
 
 .input-section {
@@ -62,7 +66,6 @@ header p {
 .button-group {
     display: flex;
     gap: 10px;
-    align-self: flex-end; /* Align button group at the bottom */
 }
 
 .button-group button {
@@ -80,23 +83,17 @@ header p {
 }
 
 .output-section {
-    flex: 1;
     text-align: left;
-    padding-left: 20px;
-    margin-top: 20px;
 }
 
-#outputTextbox {
-    width: 100%;
-    max-width: 300px; /* Adjusted width */
-    height: 150px;
+.output-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+#outputMessage {
     margin-top: 10px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 14px;
-    resize: vertical;
+    font-size: 1.2rem;
 }
 
 #successPrompt {
