@@ -36,5 +36,5 @@ inputs = {
   kms_key_owners = local.kms_users
   tags = local.config.eks.tags
   enable_cluster_creator_admin_permissions = local.config.eks.enable_cluster_creator_admin_permissions
-  access_entries = local.config.eks.access_entries
+  // access_entries = local.config.eks.access_entries
 }
