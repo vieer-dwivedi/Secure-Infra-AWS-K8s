@@ -8,16 +8,17 @@
 </head>
 <body>
     <div class="container">
-        <h1>V2-Boilerplate - API Gateway Test</h1>
-        <div class="image-container">
-            <img src="https://via.placeholder.com/800x300" alt="Placeholder Image">
+        <header>
+            <h1>V2-Boilerplate</h1>
+            <p>API Gateway Test</p>
+        </header>
+        <div class="data-section">
+            <textarea id="outputTextbox" readonly></textarea>
+            <button onclick="fetchData()">Fetch Data</button>
+            <input type="text" id="myTextBox" placeholder="Enter Name">
+            <button onclick="putData()">Push Data</button>
+            <p id="successPrompt">Operation successful!</p>
         </div>
-        <textarea id="outputTextbox" readonly></textarea>
-        <button onclick="fetchData()">Fetch Data</button><br><br>
-        <label for="myTextBox">Enter Name:</label>
-        <input type="text" id="myTextBox">
-        <button onclick="putData()">Push Data</button>
-        <p id="successPrompt">Operation successful!</p>
     </div>
     <script src="js/script.js"></script>
 </body>
