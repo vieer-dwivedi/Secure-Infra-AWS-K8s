@@ -1,0 +1,58 @@
+name: Jekyll site CI
+
+on:
+  workflow_dispatch:
+    inputs:
+      resource_prefix:
+        description: 'Prefix for resource name'
+        required: true
+        default: 'v2-boilerplate'
+      environment:
+        description: 'Environment name'
+        required: true
+        default: 'dev'
+        
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  resource_prefix: ${{ github.event.inputs.resource_prefix }}
+  environment: ${{ github.event.inputs.environment }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_SAGAR }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_SAGAR }}
+          aws-region: us-west-2
+
+      - name: Setup Terraform v1.8.4
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.8.4
+          terraform_wrapper: false
+
+      - name: Setup Terraform version
+        run: terraform --version
+
+      - name: Setup Terraform wrapper path
+        run: which terraform
+
+      - name: Setup Terragrunt version 0.58.13
+        uses: autero1/action-terragrunt@v3
+        with:
+          terragrunt-version: 0.58.13
+      
+      - name: Get AWS Account ID
+        id: aws-account-id
+        run: |
+          ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+          echo "ACCOUNT_ID=${ACCOUNT_ID}" >> $GITHUB_ENV
