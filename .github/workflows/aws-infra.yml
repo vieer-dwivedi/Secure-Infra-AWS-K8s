@@ -118,8 +118,8 @@ jobs:
           echo $ENVIRONMENT
           echo $ACCOUNT_ID
           cd ./infra/environments/${{ env.environment }}
-          terragrunt run-all plan --terragrunt-non-interactive
+          terragrunt run-all apply --terragrunt-non-interactive
       
-      # **********Debug Steps***********Uncomment when required*********
-      - name: List files in environments directory
-        run: ls -R ./infra/environments
+      # # **********Debug Steps***********Uncomment when required*********
+      # - name: List files in environments directory
+      #   run: ls -R ./infra/environments
