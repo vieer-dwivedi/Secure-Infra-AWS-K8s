@@ -86,10 +86,6 @@ jobs:
           export ENVIRONMENT=${{ env.ENVIRONMENT }}
           export ACCOUNT_ID=${{ env.ACCOUNT_ID }}
           ./scripts/preprocess-config.sh ./infra/config.yml.template ./infra/environments/${{ env.ENVIRONMENT }}/config.yml
-      
-      # **********Debug Steps***********Uncomment when required*********
-      - name: List files in environments directory
-        run: ls -R ./infra/environments
 
       # - name: cat config.yml
       #   run: cat ./infra/environments/dev/config.yml
@@ -123,3 +119,7 @@ jobs:
           echo $ACCOUNT_ID
           cd ./infra/environments/${{ env.environment }}
           terragrunt run-all plan --terragrunt-non-interactive
+      
+      # **********Debug Steps***********Uncomment when required*********
+      - name: List files in environments directory
+        run: ls -R ./infra/environments
