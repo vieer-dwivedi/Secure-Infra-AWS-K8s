@@ -1,0 +1,70 @@
+name: Deploy UI
+
+on:
+  workflow_dispatch:
+    inputs:
+      resource_prefix:
+        description: 'Prefix for resource name'
+        required: true
+        default: 'v2-boilerplate'
+      environment:
+        description: 'Environment name'
+        required: true
+        default: 'dev'
+
+env:
+  resource_prefix: ${{ github.event.inputs.resource_prefix }}
+  environment: ${{ github.event.inputs.environment }}
+
+jobs:
+  build:
+    name: 'Build and Test'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code 
+        uses: actions/checkout@v3
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_SAGAR }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_SAGAR }}
+        aws-region: us-west-2
+
+    - name: Construct bucket name
+      run: echo "BUCKET_NAME=${{ env.resource_prefix }}-s3-${{ env.environment }}" >> $GITHUB_ENV
+
+    - name: Deploy To S3 Bucket
+      env:
+        BUCKET_NAME: ${{ env.BUCKET_NAME }}
+      run: |
+        if aws s3api head-bucket --bucket "$BUCKET_NAME" 2>/dev/null;
+        then
+          echo "Bucket Found! Copying the content to s3 bucket $BUCKET_NAME"
+          aws s3 cp ./src/ui s3://$BUCKET_NAME --recursive
+        else
+          echo "Bucket $BUCKET_NAME not found. Contact DevOps team or Run the infra creation pipeline"
+        fi
+    # - name: Sync S3 bucket
+    #   run: |
+    #     aws s3 sync ./path-to-your-html-files s3://your-s3-bucket-name --delete
+
+    # - name: Deploy To S3 Bucket
+    #   env:
+    #       RESOURCE_PREFIX: ${{ env.resource_prefix }}
+    #       ENVIRONMENT: ${{ env.environment }}
+    #   run: |
+    #     if aws s3api head-bucket --bucket "${{ inputs.bucket_name }}" 2>/dev/null;
+    #     then
+    #       echo "Bucket Found! Copying the dist folder content to s3 bucket ${{ inputs.bucket_name }}"
+    #       aws s3 cp ${{ inputs.content_folder_name }} s3://${{ inputs.bucket_name }} --recursive
+    #     else
+    #       echo "Bucket ${{ inputs.bucket_name }} not found. Contact DevOps team or Run the infra creation pipeline"
+    #     fi

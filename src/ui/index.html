@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API Gateway Test</title>
+<script>
+    const currentUrl = window.location.hostname;
+    const apiUrl = 'https://' + currentUrl + '/prod/deployment';
+    function fetchData() {
+        console.log('Data:', apiUrl);
+        fetch(apiUrl, {
+            method: 'POST'
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        }).then(data => {
+            console.log('Data:', data);
+            document.getElementById('outputTextbox').innerText = data;
+            showSuccessPrompt();
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+            document.getElementById('outputTextbox').innerText = 'Error fetching data. Please try again later.';
+        });
+    }
+
+    function putData() {
+        const inputData = document.getElementById('myTextBox').value;
+        fetch(apiUrl, {
+            method: 'POST', 
+            body: JSON.stringify({ Data: inputData , Type : 'PUT' }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Data:', data);
+            showSuccessPrompt();
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+            document.getElementById('outputTextbox').innerText = 'Error fetching data. Please try again later.';
+        });
+    }
+
+    function showSuccessPrompt() {
+        const promptElement = document.getElementById('successPrompt');
+        promptElement.style.display = 'block';
+        setTimeout(() => {
+            promptElement.style.display = 'none'; 
+        }, 3000);
+    }
+</script>
+</head>
+<body>
+    <h1>API Gateway Test</h1>
+    
+    <textarea id="outputTextbox" rows="10" cols="50" readonly></textarea> 
+    <button onclick="fetchData()">Fetch Data</button><br><br><br>
+    <label for="myTextBox">Enter Name:</label>
+    <input type="text" id="myTextBox">
+    <button onclick="putData()">Push Data</button>
+    <p id="successPrompt" style="display: none; color: green;">Operation successful!</p>
+</body>
+</html>
