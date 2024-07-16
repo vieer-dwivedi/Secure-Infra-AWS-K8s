@@ -68,7 +68,7 @@ eks:
       principal_arn: "arn:aws:iam::${ACCOUNT_ID}:user/vieer.dubey@v2solutions.com"
       policy_associations:
         admin:
-          policy_arn: "arn:aws:iam::${ACCOUNT_ID}:policy/AmazonEKSViewPolicy"
+          policy_arn: "arn:aws:iam::${ACCOUNT_ID}:policy/AmazonEKSClusterAdminPolicy"
           access_scope:
             namespaces:
               - "default"
