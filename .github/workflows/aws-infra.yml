@@ -88,8 +88,8 @@ jobs:
           ./scripts/preprocess-config.sh ./infra/config.yml.template ./infra/environments/${{ env.ENVIRONMENT }}/config.yml
       
       # **********Debug Steps***********Uncomment when required*********
-      # - name: List files in environments directory
-      #   run: ls -R ./infra/environments
+      - name: List files in environments directory
+        run: ls -R ./infra/environments
 
       # - name: cat config.yml
       #   run: cat ./infra/environments/dev/config.yml
