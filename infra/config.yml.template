@@ -64,8 +64,8 @@ eks:
   access_entries:
     my_user_access:
       kubernetes_groups:
-        - "*"
-      principal_arn: "arn:aws:iam::${ACCOUNT_ID}:user/terraform"
+        - ""
+      principal_arn: "arn:aws:iam::${ACCOUNT_ID}:user/vieer.dubey@v2solutions.com"
       policy_associations:
         admin:
           policy_arn: "arn:aws:iam::${ACCOUNT_ID}:policy/AmazonEKSViewPolicy"
