@@ -5,11 +5,11 @@ remote_state {
     if_exists = "overwrite"
   }
   config = {
-    bucket         = "v2-boilerplate-state"
+    bucket         = "v2-boilerplate-s3-state"
     key            = "${path_relative_to_include()}/terraform.tfstate"
     region         = "us-west-2"
     encrypt        = true
-    dynamodb_table = "v2-boilerplate-state-lock-table"
+    dynamodb_table = "v2-boilerplate-dynamo-state-lock-tb"
   }
 }
 
