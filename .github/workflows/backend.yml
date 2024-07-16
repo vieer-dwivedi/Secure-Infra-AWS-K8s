@@ -1,4 +1,4 @@
-name: Jekyll site CI
+name: Backend CI
 
 on:
   workflow_dispatch:
