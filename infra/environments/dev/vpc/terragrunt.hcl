@@ -23,8 +23,8 @@ inputs = {
   map_public_ip_on_launch = local.config.vpc.map_public_ip_on_launch
   enable_nat_gateway = local.config.eks.deploy_worker_in_private_subnet 
   private_subnet_tags = {
-    kubernetes.io/role/internal-elb = 1
-    kubernetes.io/cluster/${local.config.eks.cluster_name} = owned
+    "kubernetes.io/role/internal-elb" = 1
+    "kubernetes.io/cluster/${local.config.eks.cluster_name}" = owned
    }
 
   public_subnet_tags = {
