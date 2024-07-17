@@ -39,6 +39,7 @@ inputs = {
     storage_encrypted                                      = local.config.rds.storage_encrypted
     apply_immediately                                      = local.config.rds.apply_immediately
     monitoring_interval                                    = local.config.rds.monitoring_interval
+    skip_final_snapshot  				   = local.config.rds.skip_final_snapshot
     manage_master_user_password                            = local.config.rds.manage_master_user_password
     manage_master_user_password_rotation                   = local.config.rds.manage_master_user_password_rotation
     master_user_password_rotation_automatically_after_days = local.config.rds.master_user_password_rotation_automatically_after_days
