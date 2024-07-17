@@ -104,6 +104,7 @@ rds:
   monitoring_interval: 1
   manage_master_user_password: true
   manage_master_user_password_rotation: true
+  skip_final_snapshot: true
   master_user_password_rotation_automatically_after_days: 1
   master_user_password_rotate_immediately: true
   tags: *tags
