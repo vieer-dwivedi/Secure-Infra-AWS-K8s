@@ -69,10 +69,10 @@ eks:
       policy_associations:
         admin:
           policy_arn: "arn:aws:iam::${ACCOUNT_ID}:policy/AmazonEKSViewPolicy"
-          access_scope: "Cluster"
-       #     namespaces:
-        #      - "default"
-        #    type: "namespace"
+          access_scope: 
+            namespaces:
+              - "default"
+            type: "Cluster"
 
 prometheus:
   deployment_name: "${RESOURCE_PREFIX}-prometheus-${ENVIRONMENT}"
