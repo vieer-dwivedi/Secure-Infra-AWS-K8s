@@ -13,11 +13,17 @@ locals {
 
 dependency "s3" {
   config_path = "../s3"
+   mock_outputs = {
+  s3_bucket_name = ""
+  }
 //   skip_outputs = true
 }
 
 dependency "cloudfront" {
     config_path = "../cloudfront"
+    mock_outputs= {
+    cloudfront_distribution_id = ""
+    }
 }
 
 inputs = {
