@@ -28,7 +28,7 @@ inputs = {
    }
 
   public_subnet_tags = {
-     kubernetes.io/role/elb = 1
-     kubernetes.io/cluster/${local.config.eks.cluster_name} = owned
+     "kubernetes.io/role/elb"= 1
+     "kubernetes.io/cluster/${local.config.eks.cluster_name}" = owned
    }
 }
