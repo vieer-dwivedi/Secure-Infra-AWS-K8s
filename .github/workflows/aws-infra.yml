@@ -118,7 +118,7 @@ jobs:
           pwd
       
       - name: Make destroy_resources.sh executable
-        run: chmod +x scripts/destroy_resources.sh
+        run: chmod +x ./scripts/destroy-resources.sh
       
       - name: Determine Action
         id: action
@@ -137,7 +137,7 @@ jobs:
       - name: Destroy Resources (if Destroy)
         if: env.action == 'destroy'
         run: |
-          ./scripts/destroy_resources.sh ${{ env.resource_prefix }} ${{ env.environment }}
+          ./scripts/destroy-resources.sh ${{ env.resource_prefix }} ${{ env.environment }}
 
       - name: ${{ steps.action.outputs.action_name }}
         env:
