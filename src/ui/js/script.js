@@ -1,5 +1,5 @@
 const currentUrl = window.location.hostname;
-const apiUrl = `https://${currentUrl}/prod/deployment`;
+const apiUrl = `https://${currentUrl}/backend`;
 
 async function fetchData() {
     console.log('Data:', apiUrl);
