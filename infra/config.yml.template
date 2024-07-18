@@ -75,19 +75,19 @@ eks:
          #   type: "Cluster"
 
 prometheus:
-  deployment_name: "${RESOURCE_PREFIX}-prometheus-${ENVIRONMENT}"
+  deployment_name: "prometheus"
   config_file: prometheus.yml
   repository_link: https://prometheus-community.github.io/helm-charts
   chart_name: prometheus
 
 grafana:
-  deployment_name: "${RESOURCE_PREFIX}-grafana-${ENVIRONMENT}"
+  deployment_name: "grafana"
   config_file: grafana.yml
   repository_link: https://grafana.github.io/helm-charts
   chart_name: grafana
 
 loadbalancer_controler:
-  deployment_name: "${RESOURCE_PREFIX}-lb-${ENVIRONMENT}"
+  deployment_name: "lb"
   config_file: values.yml
   repository_link: https://aws.github.io/eks-charts
   chart_name: aws-load-balancer-controller
