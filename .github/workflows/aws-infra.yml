@@ -131,11 +131,12 @@ jobs:
         env:
           deployment_type: ${{ env.deployment_type }}
       
-      - name: Empty and Delete S3 Bucket (if Destroy)
+      - name: Empty S3 Bucket (if Destroy)
         if: env.action == 'destroy'
         run: |
-          aws s3 rm s3://${{ env.resource_prefix }}-s3-${{ env.environment }} --recursive
-        # aws s3api delete-bucket --bucket ${{ env.resource_prefix }}-s3-${{ env.environment }}
+          aws s3api delete-objects --bucket ${env.resource_prefix}-s3-${env.environment} --delete "$(aws s3api list-object-versions --bucket ${env.resource_prefix}-s3-${env.environment} --query='{Objects: Versions[].{Key:Key,VersionId:VersionId}}')"
+          aws s3 rm s3://${env.resource_prefix}-s3-${env.environment} --recursive
+          aws s3api wait bucket-not-exists --bucket ${env.resource_prefix}-s3-${env.environment}
       
       - name: Empty ECR Repository (if Destroy)
         if: env.action == 'destroy'
