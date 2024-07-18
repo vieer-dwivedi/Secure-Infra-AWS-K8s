@@ -122,11 +122,14 @@ jobs:
         run: |
           if [ "${{ env.deployment_type }}" == "Apply" ]; then
             echo "action=apply" >> $GITHUB_ENV
+            echo "::set-output name=action_name::Terragrunt Apply"
           elif [ "${{ env.deployment_type }}" == "Destroy" ]; then
             echo "action=destroy" >> $GITHUB_ENV
+            echo "::set-output name=action_name::Terragrunt Destroy"
           else
             echo "Invalid deployment type" && exit 1
-          fi
+        env:
+          deployment_type: ${{ env.deployment_type }}
       
       - name: Empty and Delete S3 Bucket (if Destroy)
         if: env.action == 'destroy'
@@ -145,7 +148,7 @@ jobs:
             echo "No images to delete in repository $REPO_NAME"
           fi
 
-      - name: Terragrunt Apply/Destroy
+      - name: ${{ steps.action.outputs.action_name }}
         env:
           RESOURCE_PREFIX: ${{ env.resource_prefix }}
           ENVIRONMENT: ${{ env.environment }}
