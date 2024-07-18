@@ -147,6 +147,16 @@ jobs:
           else
             echo "No images to delete in repository $REPO_NAME"
           fi
+      
+      - name: Destroy Load Balancer (if Destroy)
+        if: env.action == 'destroy'
+        run: |
+          LB_ARN=$(aws elbv2 describe-load-balancers --query "LoadBalancers[?contains(Tags[?Key=='elbv2.k8s.aws/cluster' && Value=='${{ env.resource_prefix }}-cluster-${{ env.environment }}'].Value, '${{ env.resource_prefix }}-cluster-${{ env.environment }}')].LoadBalancerArn" --output text)
+          if [ -n "$LB_ARN" ]; then
+            aws elbv2 delete-load-balancer --load-balancer-arn $LB_ARN
+          else
+            echo "No Load Balancer found with the tag elbv2.k8s.aws/cluster:${{ env.resource_prefix }}-cluster-${{ env.environment }}"
+          fi
 
       - name: ${{ steps.action.outputs.action_name }}
         env:
