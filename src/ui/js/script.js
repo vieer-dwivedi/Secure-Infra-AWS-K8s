@@ -5,7 +5,7 @@ async function fetchData() {
     console.log('Data:', apiUrl);
     try {
         const response = await fetch(apiUrl, {
-            method: 'POST'
+            method: 'GET'
         });
         if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -24,8 +24,8 @@ async function putData() {
     const inputData = document.getElementById('myTextBox').value;
     try {
         const response = await fetch(apiUrl, {
-            method: 'POST',
-            body: JSON.stringify({ Data: inputData, Type: 'PUT' }),
+            method: 'PUT',
+            body: JSON.stringify({ data: inputData }),
             headers: {
                 'Content-Type': 'application/json'
             }
