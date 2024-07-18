@@ -95,8 +95,6 @@ jobs:
           export ENVIRONMENT=${{ env.ENVIRONMENT }}
           export ACCOUNT_ID=${{ env.ACCOUNT_ID }}
           ./scripts/preprocess-config.sh ./infra/config.yml.template ./infra/environments/${{ env.ENVIRONMENT }}/config.yml
-          cd /home/runner/work/v2-boilerplate-microservices-application/v2-boilerplate-microservices-application/infra/environments/dev/vpc
-          terraform force-unlock 6f6f61db-27e0-5ba6-ca14-de4a61c88330
 
       # - name: cat config.yml
       #   run: cat ./infra/environments/dev/config.yml
