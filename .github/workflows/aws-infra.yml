@@ -131,8 +131,9 @@ jobs:
           elif [ "${{ env.deployment_type }}" == "Destroy" ]; then
             echo "action=destroy" >> $GITHUB_ENV
             echo "::set-output name=action_name::Terragrunt Destroy"
-        # else
-        #   echo "Invalid deployment type" && exit 1
+          else
+            echo "Invalid deployment type" && exit 1
+          fi
 
       - name: Destroy Resources (if Destroy)
         if: env.action == 'destroy'
