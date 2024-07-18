@@ -18,7 +18,7 @@ on:
         required: true
         default: 'dev'
       deployment_type:
-        description: 'Deployment Type'
+        description: 'Deployment Type (Temporary)'
         required: true
         type: choice
         options:
@@ -133,6 +133,17 @@ jobs:
         run: |
           aws s3 rm s3://${{ env.resource_prefix }}-s3-${{ env.environment }} --recursive
         # aws s3api delete-bucket --bucket ${{ env.resource_prefix }}-s3-${{ env.environment }}
+      
+      - name: Empty ECR Repository (if Destroy)
+        if: env.action == 'destroy'
+        run: |
+          REPO_NAME="${{ env.resource_prefix }}-ecr-${{ env.environment }}"
+          IMAGE_TAGS=$(aws ecr list-images --repository-name $REPO_NAME --query 'imageIds[*]' --output json)
+          if [ "$IMAGE_TAGS" != "[]" ]; then
+            aws ecr batch-delete-image --repository-name $REPO_NAME --image-ids "$IMAGE_TAGS"
+          else
+            echo "No images to delete in repository $REPO_NAME"
+          fi
 
       - name: Terragrunt Apply/Destroy
         env:
