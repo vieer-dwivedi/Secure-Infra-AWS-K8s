@@ -17,6 +17,14 @@ on:
         description: 'Environment name'
         required: true
         default: 'dev'
+      deployment_type:
+        description: 'Deployment Type'
+        required: true
+        type: choice
+        options:
+          - Apply
+          - Destroy
+        default: Apply
 
 permissions:
   id-token: write
@@ -25,6 +33,7 @@ permissions:
 env:
   resource_prefix: ${{ github.event.inputs.resource_prefix }}
   environment: ${{ github.event.inputs.environment }}
+  deployment_type: ${{ github.event.inputs.deployment_type }}
 
 jobs:
   build:
@@ -107,8 +116,25 @@ jobs:
           ls -R ./infra/environments/${{ env.ENVIRONMENT }}/cloudfront
           echo "Current working directory:"
           pwd
+      
+      - name: Determine Action
+        id: action
+        run: |
+          if [ "${{ env.deployment_type }}" == "Apply" ]; then
+            echo "action=apply" >> $GITHUB_ENV
+          elif [ "${{ env.deployment_type }}" == "Destroy" ]; then
+            echo "action=destroy" >> $GITHUB_ENV
+          else
+            echo "Invalid deployment type" && exit 1
+          fi
+      
+      - name: Empty and Delete S3 Bucket (if Destroy)
+        if: env.action == 'destroy'
+        run: |
+          aws s3 rm s3://${{ env.resource_prefix }}-s3-${{ env.environment }} --recursive
+        # aws s3api delete-bucket --bucket ${{ env.resource_prefix }}-s3-${{ env.environment }}
 
-      - name: Terragrunt Apply
+      - name: Terragrunt Apply/Destroy
         env:
           RESOURCE_PREFIX: ${{ env.resource_prefix }}
           ENVIRONMENT: ${{ env.environment }}
@@ -118,7 +144,23 @@ jobs:
           echo $ENVIRONMENT
           echo $ACCOUNT_ID
           cd ./infra/environments/${{ env.environment }}
-          terragrunt run-all apply --terragrunt-non-interactive
+          if [ "${{ env.action }}" == "apply" ]; then
+            terragrunt run-all apply --terragrunt-non-interactive
+          elif [ "${{ env.action }}" == "destroy" ]; then
+            terragrunt run-all destroy --terragrunt-non-interactive
+          fi
+
+      # - name: Terragrunt Apply
+      #   env:
+      #     RESOURCE_PREFIX: ${{ env.resource_prefix }}
+      #     ENVIRONMENT: ${{ env.environment }}
+      #     ACCOUNT_ID: ${{ env.ACCOUNT_ID }}
+      #   run: |
+      #     echo $RESOURCE_PREFIX
+      #     echo $ENVIRONMENT
+      #     echo $ACCOUNT_ID
+      #     cd ./infra/environments/${{ env.environment }}
+      #     terragrunt run-all apply --terragrunt-non-interactive
       
       # # **********Debug Steps***********Uncomment when required*********
       # - name: List files in environments directory
