@@ -117,6 +117,9 @@ jobs:
           echo "Current working directory:"
           pwd
       
+      - name: Make destroy_resources.sh executable
+        run: chmod +x scripts/destroy_resources.sh
+      
       - name: Determine Action
         id: action
         run: |
@@ -130,34 +133,11 @@ jobs:
             echo "Invalid deployment type" && exit 1
         env:
           deployment_type: ${{ env.deployment_type }}
-      
-      - name: Empty S3 Bucket (if Destroy)
+
+      - name: Destroy Resources (if Destroy)
         if: env.action == 'destroy'
         run: |
-          aws s3api delete-objects --bucket ${env.resource_prefix}-s3-${env.environment} --delete "$(aws s3api list-object-versions --bucket ${env.resource_prefix}-s3-${env.environment} --query='{Objects: Versions[].{Key:Key,VersionId:VersionId}}')"
-          aws s3 rm s3://${env.resource_prefix}-s3-${env.environment} --recursive
-          aws s3api wait bucket-not-exists --bucket ${env.resource_prefix}-s3-${env.environment}
-      
-      - name: Empty ECR Repository (if Destroy)
-        if: env.action == 'destroy'
-        run: |
-          REPO_NAME="${{ env.resource_prefix }}-ecr-${{ env.environment }}"
-          IMAGE_TAGS=$(aws ecr list-images --repository-name $REPO_NAME --query 'imageIds[*]' --output json)
-          if [ "$IMAGE_TAGS" != "[]" ]; then
-            aws ecr batch-delete-image --repository-name $REPO_NAME --image-ids "$IMAGE_TAGS"
-          else
-            echo "No images to delete in repository $REPO_NAME"
-          fi
-      
-      - name: Destroy Load Balancer (if Destroy)
-        if: env.action == 'destroy'
-        run: |
-          LB_ARN=$(aws elbv2 describe-load-balancers --query "LoadBalancers[?contains(Tags[?Key=='elbv2.k8s.aws/cluster' && Value=='${{ env.resource_prefix }}-cluster-${{ env.environment }}'].Value, '${{ env.resource_prefix }}-cluster-${{ env.environment }}')].LoadBalancerArn" --output text)
-          if [ -n "$LB_ARN" ]; then
-            aws elbv2 delete-load-balancer --load-balancer-arn $LB_ARN
-          else
-            echo "No Load Balancer found with the tag elbv2.k8s.aws/cluster:${{ env.resource_prefix }}-cluster-${{ env.environment }}"
-          fi
+          ./scripts/destroy_resources.sh ${{ env.resource_prefix }} ${{ env.environment }}
 
       - name: ${{ steps.action.outputs.action_name }}
         env:
@@ -174,6 +154,64 @@ jobs:
           elif [ "${{ env.action }}" == "destroy" ]; then
             terragrunt run-all destroy --terragrunt-non-interactive
           fi
+
+      # - name: Determine Action
+      #   id: action
+      #   run: |
+      #     if [ "${{ env.deployment_type }}" == "Apply" ]; then
+      #       echo "action=apply" >> $GITHUB_ENV
+      #       echo "::set-output name=action_name::Terragrunt Apply"
+      #     elif [ "${{ env.deployment_type }}" == "Destroy" ]; then
+      #       echo "action=destroy" >> $GITHUB_ENV
+      #       echo "::set-output name=action_name::Terragrunt Destroy"
+      #     else
+      #       echo "Invalid deployment type" && exit 1
+      #   env:
+      #     deployment_type: ${{ env.deployment_type }}
+      
+      # - name: Empty S3 Bucket (if Destroy)
+      #   if: env.action == 'destroy'
+      #   run: |
+      #     aws s3api delete-objects --bucket ${env.resource_prefix}-s3-${env.environment} --delete "$(aws s3api list-object-versions --bucket ${env.resource_prefix}-s3-${env.environment} --query='{Objects: Versions[].{Key:Key,VersionId:VersionId}}')"
+      #     aws s3 rm s3://${env.resource_prefix}-s3-${env.environment} --recursive
+      #     aws s3api wait bucket-not-exists --bucket ${env.resource_prefix}-s3-${env.environment}
+      
+      # - name: Empty ECR Repository (if Destroy)
+      #   if: env.action == 'destroy'
+      #   run: |
+      #     REPO_NAME="${{ env.resource_prefix }}-ecr-${{ env.environment }}"
+      #     IMAGE_TAGS=$(aws ecr list-images --repository-name $REPO_NAME --query 'imageIds[*]' --output json)
+      #     if [ "$IMAGE_TAGS" != "[]" ]; then
+      #       aws ecr batch-delete-image --repository-name $REPO_NAME --image-ids "$IMAGE_TAGS"
+      #     else
+      #       echo "No images to delete in repository $REPO_NAME"
+      #     fi
+      
+      # - name: Destroy Load Balancer (if Destroy)
+      #   if: env.action == 'destroy'
+      #   run: |
+      #     LB_ARN=$(aws elbv2 describe-load-balancers --query "LoadBalancers[?contains(Tags[?Key=='elbv2.k8s.aws/cluster' && Value=='${{ env.resource_prefix }}-cluster-${{ env.environment }}'].Value, '${{ env.resource_prefix }}-cluster-${{ env.environment }}')].LoadBalancerArn" --output text)
+      #     if [ -n "$LB_ARN" ]; then
+      #       aws elbv2 delete-load-balancer --load-balancer-arn $LB_ARN
+      #     else
+      #       echo "No Load Balancer found with the tag elbv2.k8s.aws/cluster:${{ env.resource_prefix }}-cluster-${{ env.environment }}"
+      #     fi
+
+      # - name: ${{ steps.action.outputs.action_name }}
+      #   env:
+      #     RESOURCE_PREFIX: ${{ env.resource_prefix }}
+      #     ENVIRONMENT: ${{ env.environment }}
+      #     ACCOUNT_ID: ${{ env.ACCOUNT_ID }}
+      #   run: |
+      #     echo $RESOURCE_PREFIX
+      #     echo $ENVIRONMENT
+      #     echo $ACCOUNT_ID
+      #     cd ./infra/environments/${{ env.environment }}
+      #     if [ "${{ env.action }}" == "apply" ]; then
+      #       terragrunt run-all apply --terragrunt-non-interactive
+      #     elif [ "${{ env.action }}" == "destroy" ]; then
+      #       terragrunt run-all destroy --terragrunt-non-interactive
+      #     fi
 
       # - name: Terragrunt Apply
       #   env:
