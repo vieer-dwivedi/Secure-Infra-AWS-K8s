@@ -170,7 +170,7 @@ jobs:
     name: 'Approve and Delete State Resources'
     runs-on: ubuntu-latest
     needs: deploy
-    if: needs.deploy.outputs.action == 'destroy'
+    # if: needs.deploy.outputs.action == 'destroy'
     steps:
       # - name: Approval Required
       #   id: approval
