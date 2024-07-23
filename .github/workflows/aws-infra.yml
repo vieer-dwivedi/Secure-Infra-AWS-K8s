@@ -47,7 +47,9 @@ jobs:
     name: 'Terragrunt Init/Plan/Apply'
     runs-on: ubuntu-latest
     needs: build
-    environment: ${{ env.environment }}
+    environment: ${{ github.event.inputs.environment }}
+    env:
+      AWS_PRIMARY_REGION: ${{ vars.AWS_PRIMARY_REGION }}
 
     steps:
       - name: Checkout
@@ -56,7 +58,8 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::${secrets.ACCOUNT_ID}:role/${secrets.ROLE_NAME}
+          aws-region: ${{ env.AWS_PRIMARY_REGION }}
+          role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_ID }}:role/${{ secrets.ROLE_NAME }}
           role-session-name: GitHubActionsSession
 
       - name: Setup Terraform v1.8.4
@@ -162,6 +165,37 @@ jobs:
           elif [ "${{ env.action }}" == "destroy" ]; then
             terragrunt run-all destroy --terragrunt-non-interactive
           fi
+  
+  destroy:
+    name: 'Approve and Delete State Resources'
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: needs.deploy.outputs.action == 'destroy'
+    steps:
+      # - name: Approval Required
+      #   id: approval
+      #   uses: actions/github-script@v6
+      #   with:
+      #     script: |
+      #       const { Octokit } = require("@octokit/rest");
+      #       const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+      #       const { data: { conclusion } } = await octokit.actions.createWorkflowDispatch({
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         workflow_id: context.workflow.id,
+      #         ref: context.ref,
+      #         inputs: {
+      #           approve_delete: 'true'
+      #         }
+      #       });
+      #       if (conclusion !== 'success') {
+      #         throw new Error('User did not approve');
+      #       }
+
+      - name: Delete State Bucket and DynamoDB Table
+        if: env.approve_delete == 'true'
+        run: |
+          aws dynamodb delete-table --table-name v2-sb-dynamo-state-lock-tb
       
       # - name: Terragrunt Apply
       #   env:
