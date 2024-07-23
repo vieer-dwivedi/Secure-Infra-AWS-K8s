@@ -46,11 +46,27 @@ fi
 TAG_KEY="elbv2.k8s.aws/cluster"
 TAG_VALUE="${RESOURCE_PREFIX}-cluster-${ENVIRONMENT}"
 echo "Deleting Load Balancer with tag ${TAG_KEY}:${TAG_VALUE}"
-LOAD_BALANCER_ARN=$(aws elbv2 describe-load-balancers --query "LoadBalancers[?contains(Tags[?Key=='${TAG_KEY}'].Value, '${TAG_VALUE}')].LoadBalancerArn" --output text)
+
+# Fetch the load balancer ARN
+LOAD_BALANCER_ARN=$(aws elbv2 describe-load-balancers --query "LoadBalancers[].LoadBalancerArn" --output text | while read -r arn; do aws elbv2 describe-tags --resource-arns "$arn" --query "TagDescriptions[?Tags[?Key=='${TAG_KEY}'&&Value=='${TAG_VALUE}']].ResourceArn" --output text; done)
 
 if [ -z "$LOAD_BALANCER_ARN" ]; then
     echo "No Load Balancer found with the specified tag: ${TAG_KEY}:${TAG_VALUE}"
 else
     echo "Deleting Load Balancer with ARN: $LOAD_BALANCER_ARN"
+    
+    # Describe the load balancer to get the associated target groups
+    TARGET_GROUP_ARNS=$(aws elbv2 describe-target-groups --load-balancer-arn "$LOAD_BALANCER_ARN" --query "TargetGroups[].TargetGroupArn" --output text)
+    
+    if [ -z "$TARGET_GROUP_ARNS" ]; then
+        echo "No Target Groups found for the Load Balancer with ARN: $LOAD_BALANCER_ARN"
+    else
+        for TARGET_GROUP_ARN in $TARGET_GROUP_ARNS; do
+            echo "Deleting Target Group with ARN: $TARGET_GROUP_ARN"
+            aws elbv2 delete-target-group --target-group-arn "$TARGET_GROUP_ARN"
+        done
+    fi
+    
+    # Delete the load balancer
     aws elbv2 delete-load-balancer --load-balancer-arn "$LOAD_BALANCER_ARN"
 fi

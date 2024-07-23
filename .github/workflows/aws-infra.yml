@@ -47,6 +47,7 @@ jobs:
     name: 'Terragrunt Init/Plan/Apply'
     runs-on: ubuntu-latest
     needs: build
+    environment: ${{ env.environment }}
 
     steps:
       - name: Checkout
@@ -55,9 +56,8 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_SAGAR }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_SAGAR }}
-          aws-region: us-west-2
+          role-to-assume: arn:aws:iam::${secrets.ACCOUNT_ID}:role/${secrets.ROLE_NAME}
+          role-session-name: GitHubActionsSession
 
       - name: Setup Terraform v1.8.4
         uses: hashicorp/setup-terraform@v1
@@ -76,29 +76,31 @@ jobs:
         with:
           terragrunt-version: 0.58.13
       
-      - name: Get AWS Account ID
-        id: aws-account-id
-        run: |
-          ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
-          echo "ACCOUNT_ID=${ACCOUNT_ID}" >> $GITHUB_ENV
+      # - name: Get AWS Account ID
+      #   id: aws-account-id
+      #   run: |
+      #     ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+      #     echo "ACCOUNT_ID=${ACCOUNT_ID}" >> $GITHUB_ENV
       
       - name: Make preprocess-config.sh executable
         run: chmod +x ./scripts/preprocess-config.sh
       
-      - name: Preprocess config.yml for dev
+      - name: Preprocess config.yml for ${{ env.environment }}
         env:
           RESOURCE_PREFIX: ${{ env.resource_prefix }}
           ENVIRONMENT: ${{ env.environment }}
-          ACCOUNT_ID: ${{ env.ACCOUNT_ID }}
+          ACCOUNT_ID: ${{ secrets.ACCOUNT_ID }}
         run: |
-          export RESOURCE_PREFIX=${{ env.RESOURCE_PREFIX }}
-          export ENVIRONMENT=${{ env.ENVIRONMENT }}
-          export ACCOUNT_ID=${{ env.ACCOUNT_ID }}
-          ./scripts/preprocess-config.sh ./infra/config.yml.template ./infra/environments/${{ env.ENVIRONMENT }}/config.yml
+          TEMPLATE_FILE=./infra/config-${{ env.ENVIRONMENT }}.yml.template
+          CONFIG_FILE=./infra/environments/${{ env.ENVIRONMENT }}/config.yml
+          ./scripts/preprocess-config.sh $TEMPLATE_FILE $CONFIG_FILE
 
-      # - name: cat config.yml
-      #   run: cat ./infra/environments/dev/config.yml
+        # export RESOURCE_PREFIX=${{ env.RESOURCE_PREFIX }}
+        # export ENVIRONMENT=${{ env.ENVIRONMENT }}
+        # export ACCOUNT_ID=${{ secrets.ACCOUNT_ID }}
+        # ./scripts/preprocess-config.sh ./infra/config-${{ env.environment }}.yml.template ./infra/environments/${{ env.ENVIRONMENT }}/config.yml
 
+      # Temporary
       - name: Verify config.yml
         env:
             ENVIRONMENT: ${{ env.environment }}
@@ -108,6 +110,7 @@ jobs:
           echo "Location of config.yml:"
           ls -l ./infra/environments/${{ env.ENVIRONMENT }}/config.yml
 
+      # Temporary
       - name: Debug CloudFront module directory
         env:
               ENVIRONMENT: ${{ env.environment }}
@@ -117,9 +120,11 @@ jobs:
           echo "Current working directory:"
           pwd
       
+      # Temporary
       - name: Make destroy_resources.sh executable
         run: chmod +x ./scripts/destroy-resources.sh
       
+      # Temporary
       - name: Determine Action
         id: action
         env:
@@ -135,16 +140,18 @@ jobs:
             echo "Invalid deployment type" && exit 1
           fi
 
+      # Temporary
       - name: Destroy Resources (if Destroy)
         if: env.action == 'destroy'
         run: |
           ./scripts/destroy-resources.sh ${{ env.resource_prefix }} ${{ env.environment }}
 
+      # Temporary
       - name: ${{ steps.action.outputs.action_name }}
         env:
           RESOURCE_PREFIX: ${{ env.resource_prefix }}
           ENVIRONMENT: ${{ env.environment }}
-          ACCOUNT_ID: ${{ env.ACCOUNT_ID }}
+          ACCOUNT_ID: ${{ secrets.ACCOUNT_ID }}
         run: |
           echo $RESOURCE_PREFIX
           echo $ENVIRONMENT
@@ -155,6 +162,18 @@ jobs:
           elif [ "${{ env.action }}" == "destroy" ]; then
             terragrunt run-all destroy --terragrunt-non-interactive
           fi
+      
+      # - name: Terragrunt Apply
+      #   env:
+      #     RESOURCE_PREFIX: ${{ env.resource_prefix }}
+      #     ENVIRONMENT: ${{ env.environment }}
+      #     ACCOUNT_ID: ${{ env.ACCOUNT_ID }}
+      #   run: |
+      #     echo $RESOURCE_PREFIX
+      #     echo $ENVIRONMENT
+      #     echo $ACCOUNT_ID
+      #     cd ./infra/environments/${{ env.environment }}
+      #     terragrunt run-all apply --terragrunt-non-interactive
 
       # - name: Determine Action
       #   id: action
@@ -213,18 +232,6 @@ jobs:
       #     elif [ "${{ env.action }}" == "destroy" ]; then
       #       terragrunt run-all destroy --terragrunt-non-interactive
       #     fi
-
-      # - name: Terragrunt Apply
-      #   env:
-      #     RESOURCE_PREFIX: ${{ env.resource_prefix }}
-      #     ENVIRONMENT: ${{ env.environment }}
-      #     ACCOUNT_ID: ${{ env.ACCOUNT_ID }}
-      #   run: |
-      #     echo $RESOURCE_PREFIX
-      #     echo $ENVIRONMENT
-      #     echo $ACCOUNT_ID
-      #     cd ./infra/environments/${{ env.environment }}
-      #     terragrunt run-all apply --terragrunt-non-interactive
       
       # # **********Debug Steps***********Uncomment when required*********
       # - name: List files in environments directory

@@ -1,0 +1,146 @@
+tags: &tags
+  Terraform: "true"
+  Environment: "${ENVIRONMENT}"
+  Owner: "v2-devops"
+  Project: "${RESOURCE_PREFIX}"
+
+s3:
+  bucket_name: "${RESOURCE_PREFIX}-s3-${ENVIRONMENT}"
+  versioning_enabled: false
+  tags: *tags
+
+vpc:
+  name: "${RESOURCE_PREFIX}-vpc-${ENVIRONMENT}"
+  cdir: "10.0.0.0/16"
+  azs:
+    - a
+    - b
+    - c
+  private_subnets:
+    - "10.0.1.0/24"
+    - "10.0.2.0/24"
+    - "10.0.3.0/24"
+  public_subnets:
+    - "10.0.101.0/24"
+    - "10.0.102.0/24"
+    - "10.0.103.0/24"
+  single_nat_gateway: true
+  enable_nat_gateway: false
+  tags: *tags
+  map_public_ip_on_launch: true
+
+eks:
+  cluster_name: "${RESOURCE_PREFIX}-cluster-${ENVIRONMENT}"
+  create_iam_role: true
+  deploy_worker_in_private_subnet: false
+  deploy_cluster_in_private_subnet: false
+  include_oidc_root_ca_thumbprint: true
+  enable_cluster_creator_admin_permissions: true
+  kms_key_owners:
+    - "user/vieer.dubey@v2solutions.com"
+  cluster_version: 1.29
+  create_cloudwatch_log_group: true
+  cluster_endpoint_public_access: true
+  cluster_addons:
+    coredns:
+      most_recent: true
+    kube-proxy:
+      most_recent: true
+    vpc-cni:
+      most_recent: true
+
+  eks_managed_node_group_defaults:
+    instance_types:
+    - "t3a.medium"
+  eks_managed_node_groups:
+    app:
+      min_size: 1
+      max_size: 10
+      desired_size: 1
+      instance_types:
+      - t3.medium
+      capacity_type: SPOT
+  tags: *tags
+  access_entries:
+    my_user_access:
+      #kubernetes_groups:
+      #  - "*"
+      principal_arn: "arn:aws:iam::${ACCOUNT_ID}:user/vieer.dubey@v2solutions.com"
+      #policy_associations:
+        #admin:
+          #policy_arn: "arn:aws:iam::${ACCOUNT_ID}:policy/AmazonEKSViewPolicy"
+         # access_scope: 
+          #  namespaces:
+         #     - "default"
+         #   type: "Cluster"
+
+prometheus:
+  deployment_name: "prometheus"
+  config_file: prometheus.yml
+  repository_link: https://prometheus-community.github.io/helm-charts
+  chart_name: prometheus
+
+grafana:
+  deployment_name: "grafana"
+  config_file: grafana.yml
+  repository_link: https://grafana.github.io/helm-charts
+  chart_name: grafana
+
+loadbalancer_controler:
+  deployment_name: "lb"
+  config_file: values.yml
+  repository_link: https://aws.github.io/eks-charts
+  chart_name: aws-load-balancer-controller
+  parameters: 
+    - key: clusterName
+      value: "${RESOURCE_PREFIX}-cluster-${ENVIRONMENT}"
+    - key: replicaCount
+      value: "1"
+
+rds:
+  name: "${RESOURCE_PREFIX}-db-${ENVIRONMENT}"
+  publicly_accessible: false
+  engine: "aurora-postgresql"
+  engine_version: "15.4"
+  instance_class: "db.t3.medium"
+  instance_type: "db.t3.medium"
+  db_subnet_group_name: "${RESOURCE_PREFIX}-db-subg-${ENVIRONMENT}"
+  create_db_subnet_group: true
+  instances:
+    one:
+      instance_class: "db.t3.medium"
+  database_name: "v2boilerplate"
+  master_username: "masteruser"
+  storage_encrypted: true
+  apply_immediately: true
+  monitoring_interval: 1
+  manage_master_user_password: true
+  manage_master_user_password_rotation: true
+  skip_final_snapshot: true
+  master_user_password_rotation_automatically_after_days: 1
+  master_user_password_rotate_immediately: true
+  tags: *tags
+
+
+ecr:
+  repository_name: "${RESOURCE_PREFIX}-ecr-${ENVIRONMENT}"
+  repository_lifecycle_policy: |
+      {
+        "rules": [
+          {
+            "rulePriority": 1,
+            "description": "Keep last 30 images",
+            "selection": {
+              "tagStatus": "tagged",
+              "tagPrefixList": ["v"],
+              "countType": "imageCountMoreThan",
+              "countNumber": 30
+            },
+            "action": {
+              "type": "expire"
+            }
+          }
+        ]
+      }
+
+  tags: *tags
