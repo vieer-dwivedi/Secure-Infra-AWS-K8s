@@ -194,7 +194,7 @@ jobs:
       #       }
 
       - name: Delete State Bucket and DynamoDB Table
-        if: env.approve_delete == 'true'
+        # if: env.approve_delete == 'true'
         run: |
           aws dynamodb delete-table --table-name v2-sb-dynamo-state-lock-tb
       
