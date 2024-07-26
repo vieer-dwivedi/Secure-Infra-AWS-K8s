@@ -55,6 +55,17 @@ if [ -z "$LOAD_BALANCER_ARN" ]; then
 else
     echo "Deleting Load Balancer with ARN: $LOAD_BALANCER_ARN"
     
+    # Delete all listeners associated with the load balancer
+    LISTENERS=$(aws elbv2 describe-listeners --load-balancer-arn "$LOAD_BALANCER_ARN" --query "Listeners[].ListenerArn" --output text)
+    for LISTENER in $LISTENERS; do
+        echo "Deleting Listener: $LISTENER"
+        aws elbv2 delete-listener --listener-arn "$LISTENER"
+    done
+    
+    # Wait for a short period to ensure changes are processed
+    echo "Waiting for 30 seconds to ensure changes are processed..."
+    sleep 30
+    
     # Describe the load balancer to get the associated target groups
     TARGET_GROUP_ARNS=$(aws elbv2 describe-target-groups --load-balancer-arn "$LOAD_BALANCER_ARN" --query "TargetGroups[].TargetGroupArn" --output text)
     
@@ -62,11 +73,19 @@ else
         echo "No Target Groups found for the Load Balancer with ARN: $LOAD_BALANCER_ARN"
     else
         for TARGET_GROUP_ARN in $TARGET_GROUP_ARNS; do
-            echo "Deleting Target Group with ARN: $TARGET_GROUP_ARN"
-            aws elbv2 delete-target-group --target-group-arn "$TARGET_GROUP_ARN"
+            echo "Attempting to delete Target Group with ARN: $TARGET_GROUP_ARN"
+            if aws elbv2 delete-target-group --target-group-arn "$TARGET_GROUP_ARN"; then
+                echo "Successfully deleted Target Group: $TARGET_GROUP_ARN"
+            else
+                echo "Failed to delete Target Group: $TARGET_GROUP_ARN. It may still be in use."
+            fi
         done
     fi
     
     # Delete the load balancer
-    aws elbv2 delete-load-balancer --load-balancer-arn "$LOAD_BALANCER_ARN"
+    if aws elbv2 delete-load-balancer --load-balancer-arn "$LOAD_BALANCER_ARN"; then
+        echo "Successfully deleted Load Balancer: $LOAD_BALANCER_ARN"
+    else
+        echo "Failed to delete Load Balancer: $LOAD_BALANCER_ARN"
+    fi
 fi
