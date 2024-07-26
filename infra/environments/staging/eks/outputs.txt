@@ -1,0 +1,205 @@
+access_entries = {
+  "cluster_creator" = {
+    "access_entry_arn" = "arn:aws:eks:us-west-2:370180090626:access-entry/test-cluster-dev/user/370180090626/vieer.dubey@v2solutions.com/78c855da-ef00-79d8-e711-e1f765151c62"
+    "cluster_name" = "test-cluster-dev"
+    "created_at" = "2024-07-13T10:49:01Z"
+    "id" = "test-cluster-dev:arn:aws:iam::370180090626:user/vieer.dubey@v2solutions.com"
+    "kubernetes_groups" = toset([])
+    "modified_at" = "2024-07-13T10:49:01Z"
+    "principal_arn" = "arn:aws:iam::370180090626:user/vieer.dubey@v2solutions.com"
+    "tags" = tomap({
+      "Environment" = "dev"
+      "Owner" = "v2-devops"
+      "Project" = "v2-boilerplate"
+      "Terraform" = "true"
+    })
+    "tags_all" = tomap({
+      "Environment" = "dev"
+      "Owner" = "v2-devops"
+      "Project" = "v2-boilerplate"
+      "Terraform" = "true"
+    })
+    "timeouts" = null /* object */
+    "type" = "STANDARD"
+    "user_name" = "arn:aws:iam::370180090626:user/vieer.dubey@v2solutions.com"
+  }
+}
+access_policy_associations = {
+  "cluster_creator_admin" = {
+    "access_scope" = tolist([
+      {
+        "namespaces" = toset(null) /* of string */
+        "type" = "cluster"
+      },
+    ])
+    "associated_at" = "2024-07-13 10:49:03.092 +0000 UTC"
+    "cluster_name" = "test-cluster-dev"
+    "id" = "test-cluster-dev#arn:aws:iam::370180090626:user/vieer.dubey@v2solutions.com#arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+    "modified_at" = "2024-07-13 10:49:03.092 +0000 UTC"
+    "policy_arn" = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+    "principal_arn" = "arn:aws:iam::370180090626:user/vieer.dubey@v2solutions.com"
+    "timeouts" = null /* object */
+  }
+}
+cloudwatch_log_group_arn = "arn:aws:logs:us-west-2:370180090626:log-group:/aws/eks/test-cluster-dev/cluster"
+cloudwatch_log_group_name = "/aws/eks/test-cluster-dev/cluster"
+cluster_addons = {
+  "coredns" = {
+    "addon_name" = "coredns"
+    "addon_version" = "v1.11.1-eksbuild.9"
+    "arn" = "arn:aws:eks:us-west-2:370180090626:addon/test-cluster-dev/coredns/64c855dc-1c94-da89-ae6d-24d2a705e993"
+    "cluster_name" = "test-cluster-dev"
+    "configuration_values" = ""
+    "created_at" = "2024-07-13T10:51:35Z"
+    "id" = "test-cluster-dev:coredns"
+    "modified_at" = "2024-07-13T10:52:18Z"
+    "preserve" = true
+    "resolve_conflicts" = tostring(null)
+    "resolve_conflicts_on_create" = "OVERWRITE"
+    "resolve_conflicts_on_update" = "OVERWRITE"
+    "service_account_role_arn" = ""
+    "tags" = tomap({
+      "Environment" = "dev"
+      "Owner" = "v2-devops"
+      "Project" = "v2-boilerplate"
+      "Terraform" = "true"
+    })
+    "tags_all" = tomap({
+      "Environment" = "dev"
+      "Owner" = "v2-devops"
+      "Project" = "v2-boilerplate"
+      "Terraform" = "true"
+    })
+    "timeouts" = {
+      "create" = tostring(null)
+      "delete" = tostring(null)
+      "update" = tostring(null)
+    }
+  }
+  "kube-proxy" = {
+    "addon_name" = "kube-proxy"
+    "addon_version" = "v1.29.3-eksbuild.5"
+    "arn" = "arn:aws:eks:us-west-2:370180090626:addon/test-cluster-dev/kube-proxy/28c855dc-1c9f-7543-8726-d93abbae57e3"
+    "cluster_name" = "test-cluster-dev"
+    "configuration_values" = ""
+    "created_at" = "2024-07-13T10:51:35Z"
+    "id" = "test-cluster-dev:kube-proxy"
+    "modified_at" = "2024-07-13T10:52:13Z"
+    "preserve" = true
+    "resolve_conflicts" = tostring(null)
+    "resolve_conflicts_on_create" = "OVERWRITE"
+    "resolve_conflicts_on_update" = "OVERWRITE"
+    "service_account_role_arn" = ""
+    "tags" = tomap({
+      "Environment" = "dev"
+      "Owner" = "v2-devops"
+      "Project" = "v2-boilerplate"
+      "Terraform" = "true"
+    })
+    "tags_all" = tomap({
+      "Environment" = "dev"
+      "Owner" = "v2-devops"
+      "Project" = "v2-boilerplate"
+      "Terraform" = "true"
+    })
+    "timeouts" = {
+      "create" = tostring(null)
+      "delete" = tostring(null)
+      "update" = tostring(null)
+    }
+  }
+  "vpc-cni" = {
+    "addon_name" = "vpc-cni"
+    "addon_version" = "v1.18.2-eksbuild.1"
+    "arn" = "arn:aws:eks:us-west-2:370180090626:addon/test-cluster-dev/vpc-cni/6ac855dc-1c99-face-ff5f-bd17413fd8a6"
+    "cluster_name" = "test-cluster-dev"
+    "configuration_values" = ""
+    "created_at" = "2024-07-13T10:51:35Z"
+    "id" = "test-cluster-dev:vpc-cni"
+    "modified_at" = "2024-07-13T10:52:13Z"
+    "preserve" = true
+    "resolve_conflicts" = tostring(null)
+    "resolve_conflicts_on_create" = "OVERWRITE"
+    "resolve_conflicts_on_update" = "OVERWRITE"
+    "service_account_role_arn" = ""
+    "tags" = tomap({
+      "Environment" = "dev"
+      "Owner" = "v2-devops"
+      "Project" = "v2-boilerplate"
+      "Terraform" = "true"
+    })
+    "tags_all" = tomap({
+      "Environment" = "dev"
+      "Owner" = "v2-devops"
+      "Project" = "v2-boilerplate"
+      "Terraform" = "true"
+    })
+    "timeouts" = {
+      "create" = tostring(null)
+      "delete" = tostring(null)
+      "update" = tostring(null)
+    }
+  }
+}
+cluster_arn = "arn:aws:eks:us-west-2:370180090626:cluster/test-cluster-dev"
+cluster_certificate_authority_data = "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCVENDQWUyZ0F3SUJBZ0lJT1NuVGRyV3Fkb2d3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TkRBM01UTXhNRFF3TURGYUZ3MHpOREEzTVRFeE1EUTFNREZhTUJVeApFekFSQmdOVkJBTVRDbXQxWW1WeWJtVjBaWE13Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLCkFvSUJBUUM0WW9ROFdaTEp5Q3dOQ1pmbVViWTJwUU9HWkowYjNRMWpwZjByZ0MzU1ovSkdSbi9VOHFrcm9IamQKSlVrL2QyemI1QzBoTG82ZGZCWXN2dWhRK3h5dHJCVUk0SFdtYUEwMzRGbVQ3QWJ0RDdJcWIzVzNYWFIrTkJvWgp5c3ZkYkdKTitIazc3emF6WXFkS3JMRE8wWmUxSUgvYlIxWG15TkJpa1E4eWtrak5lOS9pOGZPcm8wVzdFVEZCClBWWmtUMjV5T0RhOTErd3BOajRMcWxwODlrL05KR1pTZGlCR0xxL2Q5Q0ovRVpqMVFhbThlMGI5ajNHS1BuYWIKWGlEd2JSZFNlbGgxZDZ4WEZlSmdPWXpyK0JESXMxV09EY1JFRkFyQ2dyMkdoVmh0Rnc5UFJkTWl4dGppam1MRQpLQURDU2p5bk1ZKzhQYStJU1RpT2FZeEQ5YUNoQWdNQkFBR2pXVEJYTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQCkJnTlZIUk1CQWY4RUJUQURBUUgvTUIwR0ExVWREZ1FXQkJRZzlKenFhVC9qR1h5SVQxNEVDV1FOOTArNFBUQVYKQmdOVkhSRUVEakFNZ2dwcmRXSmxjbTVsZEdWek1BMEdDU3FHU0liM0RRRUJDd1VBQTRJQkFRQ2c4MHRkM0VyeAoySkhmN2JvZCs2cU1seGFpbkV1cXJjYjdkSDVzb2hYT0tnZnIyWTNMc3JJcGNlZDVSMU1mcEFVczRWME9tWmttCkN6NmdRTVJFSVhLWkYvWjNSNHB6aS8xbjlvZm15YXF1VHNEajFTYVNLSzBPSW9XMlFYNUoxZTY0MEw1bndMcVkKMmJQSkhKUndmNnJERW5qcHhjeWJxOUNPRHhkS2lWeHVQVk02V05rczd1V0V6akYwK28wVEdxZXN5RC9pNDE2YwozVjIxTWlaaWIxcEJXSzlNK3BZcnZpVXRkUnlBUGd1S3BGZVpvRDBoa2lJS2pnZ1lIVFZxQ3NRNmhHdVdjcUgrClhPRnljbVR0QmVXMWlLcXI3azFheUg5SDVYdU9PYTBBOWRCQzlsSE9abXNLWklPM2NZVUNDM0NpV2FJWjEzSjkKN1JiN0ZjM21mWlcrCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K"
+cluster_endpoint = "https://A8E4F8802C66521FBF2BA1F3939593C1.gr7.us-west-2.eks.amazonaws.com"
+cluster_iam_role_arn = "arn:aws:iam::370180090626:role/test-cluster-dev-cluster-20240713103959109700000001"
+cluster_iam_role_name = "test-cluster-dev-cluster-20240713103959109700000001"
+cluster_iam_role_unique_id = "AROAVMMDT5MBKQDJCVCLC"
+cluster_identity_providers = {}
+cluster_ip_family = "ipv4"
+cluster_name = "test-cluster-dev"
+cluster_oidc_issuer_url = "https://oidc.eks.us-west-2.amazonaws.com/id/A8E4F8802C66521FBF2BA1F3939593C1"
+cluster_platform_version = "eks.10"
+cluster_primary_security_group_id = "sg-04a0127b1a774bea6"
+cluster_security_group_arn = "arn:aws:ec2:us-west-2:370180090626:security-group/sg-00606c2315417342b"
+cluster_security_group_id = "sg-00606c2315417342b"
+cluster_service_cidr = "10.100.0.0/16"
+cluster_status = "ACTIVE"
+cluster_tls_certificate_sha1_fingerprint = "9e99a48a9960b14926bb7f3b02e22da2b0ab7280"
+cluster_version = "1.29"
+eks_managed_node_groups = {
+  "app" = {
+    "autoscaling_group_schedule_arns" = {}
+    "iam_role_arn" = "arn:aws:iam::370180090626:role/app-eks-node-group-20240713103959109700000002"
+    "iam_role_name" = "app-eks-node-group-20240713103959109700000002"
+    "iam_role_unique_id" = "AROAVMMDT5MBCTPTFC7NE"
+    "launch_template_arn" = "arn:aws:ec2:us-west-2:370180090626:launch-template/lt-037bf988b49f183e2"
+    "launch_template_id" = "lt-037bf988b49f183e2"
+    "launch_template_latest_version" = 1
+    "launch_template_name" = "app-2024071310493109780000000c"
+    "node_group_arn" = "arn:aws:eks:us-west-2:370180090626:nodegroup/test-cluster-dev/app-2024071310493234700000000e/4ac855db-2c40-ad74-a2df-cc4b1350dc15"
+    "node_group_autoscaling_group_names" = [
+      "eks-app-2024071310493234700000000e-4ac855db-2c40-ad74-a2df-cc4b1350dc15",
+    ]
+    "node_group_id" = "test-cluster-dev:app-2024071310493234700000000e"
+    "node_group_labels" = tomap(null) /* of string */
+    "node_group_resources" = tolist([
+      {
+        "autoscaling_groups" = tolist([
+          {
+            "name" = "eks-app-2024071310493234700000000e-4ac855db-2c40-ad74-a2df-cc4b1350dc15"
+          },
+        ])
+        "remote_access_security_group_id" = ""
+      },
+    ])
+    "node_group_status" = "ACTIVE"
+    "node_group_taints" = toset([])
+    "platform" = "linux"
+  }
+}
+eks_managed_node_groups_autoscaling_group_names = tolist([
+  "eks-app-2024071310493234700000000e-4ac855db-2c40-ad74-a2df-cc4b1350dc15",
+])
+fargate_profiles = {}
+kms_key_arn = "arn:aws:kms:us-west-2:370180090626:key/5a70152a-28a0-421b-ab1e-ee37eed79a79"
+kms_key_id = "5a70152a-28a0-421b-ab1e-ee37eed79a79"
+kms_key_policy = "{\"Statement\":[{\"Action\":\"kms:*\",\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::370180090626:root\"},\"Resource\":\"*\",\"Sid\":\"Default\"},{\"Action\":\"kms:*\",\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::370180090626:user/vieer.dubey@v2solutions.com\"},\"Resource\":\"*\",\"Sid\":\"KeyOwner\"},{\"Action\":[\"kms:Update*\",\"kms:UntagResource\",\"kms:TagResource\",\"kms:ScheduleKeyDeletion\",\"kms:Revoke*\",\"kms:ReplicateKey\",\"kms:Put*\",\"kms:List*\",\"kms:ImportKeyMaterial\",\"kms:Get*\",\"kms:Enable*\",\"kms:Disable*\",\"kms:Describe*\",\"kms:Delete*\",\"kms:Create*\",\"kms:CancelKeyDeletion\"],\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::370180090626:user/vieer.dubey@v2solutions.com\"},\"Resource\":\"*\",\"Sid\":\"KeyAdministration\"},{\"Action\":[\"kms:ReEncrypt*\",\"kms:GenerateDataKey*\",\"kms:Encrypt\",\"kms:DescribeKey\",\"kms:Decrypt\"],\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::370180090626:role/test-cluster-dev-cluster-20240713103959109700000001\"},\"Resource\":\"*\",\"Sid\":\"KeyUsage\"}],\"Version\":\"2012-10-17\"}"
+node_security_group_arn = "arn:aws:ec2:us-west-2:370180090626:security-group/sg-0cd5ec53207430d60"
+node_security_group_id = "sg-0cd5ec53207430d60"
+oidc_provider = "oidc.eks.us-west-2.amazonaws.com/id/A8E4F8802C66521FBF2BA1F3939593C1"
+oidc_provider_arn = "arn:aws:iam::370180090626:oidc-provider/oidc.eks.us-west-2.amazonaws.com/id/A8E4F8802C66521FBF2BA1F3939593C1"
+self_managed_node_groups = {}
+self_managed_node_groups_autoscaling_group_names = tolist([])

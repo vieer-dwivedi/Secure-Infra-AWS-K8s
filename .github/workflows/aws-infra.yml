@@ -94,15 +94,19 @@ jobs:
           ENVIRONMENT: ${{ env.environment }}
           ACCOUNT_ID: ${{ secrets.ACCOUNT_ID }}
         run: |
-          TEMPLATE_FILE=./infra/config-${{ env.ENVIRONMENT }}.yml.template
-          CONFIG_FILE=./infra/environments/${{ env.ENVIRONMENT }}/config.yml
-          ./scripts/preprocess-config.sh $TEMPLATE_FILE $CONFIG_FILE
+          export RESOURCE_PREFIX=${{ env.RESOURCE_PREFIX }}
+          export ENVIRONMENT=${{ env.ENVIRONMENT }}
+          export ACCOUNT_ID=${{ secrets.ACCOUNT_ID }}
+          ./scripts/preprocess-config.sh ./infra/config-${{ env.environment }}.yml.template ./infra/environments/${{ env.ENVIRONMENT }}/config.yml
 
-        # export RESOURCE_PREFIX=${{ env.RESOURCE_PREFIX }}
-        # export ENVIRONMENT=${{ env.ENVIRONMENT }}
-        # export ACCOUNT_ID=${{ secrets.ACCOUNT_ID }}
-        # ./scripts/preprocess-config.sh ./infra/config-${{ env.environment }}.yml.template ./infra/environments/${{ env.ENVIRONMENT }}/config.yml
+        #   TEMPLATE_FILE=./infra/config-${{ env.ENVIRONMENT }}.yml.template
+        # CONFIG_FILE=./infra/environments/${{ env.ENVIRONMENT }}/config.yml
+        # ./scripts/preprocess-config.sh $TEMPLATE_FILE $CONFIG_FILE
 
+      # # **********Debug Steps***********Uncomment when required*********
+      - name: List files in environments directory
+        run: ls -R ./infra/environments
+        
       # Temporary
       - name: Verify config.yml
         env:
