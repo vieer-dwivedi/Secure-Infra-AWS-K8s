@@ -69,8 +69,8 @@ eks:
       policy_associations:
         admin:
           policy_arn: "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
-          access_scope: 
-            type: "Cluster"
+          access_scope: "cluster"
+          #  type: "Cluster"
           #  namespaces:
          #     - "default"
             
