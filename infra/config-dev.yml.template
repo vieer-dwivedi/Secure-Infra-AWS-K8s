@@ -66,13 +66,13 @@ eks:
       #kubernetes_groups:
       #  - "*"
       principal_arn: "arn:aws:iam::${ACCOUNT_ID}:user/vieer.dubey@v2solutions.com"
-      #policy_associations:
+      policy_associations:
         #admin:
-          #policy_arn: "arn:aws:iam::${ACCOUNT_ID}:policy/AmazonEKSViewPolicy"
-         # access_scope: 
+          policy_arn: "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+          access_scope: 
           #  namespaces:
          #     - "default"
-         #   type: "Cluster"
+            type: "Cluster"
 
 prometheus:
   deployment_name: "prometheus"
