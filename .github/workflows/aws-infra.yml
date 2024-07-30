@@ -147,11 +147,11 @@ jobs:
             echo "Invalid deployment type" && exit 1
           fi
 
-      # Temporary
-      - name: Destroy Resources (if Destroy)
-        if: env.action == 'destroy'
-        run: |
-          ./scripts/destroy-resources.sh ${{ env.resource_prefix }} ${{ env.environment }}
+      # # Temporary
+      # - name: Destroy Resources (if Destroy)
+      #   if: env.action == 'destroy'
+      #   run: |
+      #     ./scripts/destroy-resources.sh ${{ env.resource_prefix }} ${{ env.environment }}
 
       # Temporary
       - name: ${{ steps.action.outputs.action_name }}
