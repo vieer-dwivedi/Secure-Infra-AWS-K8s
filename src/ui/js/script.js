@@ -1,4 +1,4 @@
-const currentUrl = 'FD8051CB9493BF47D2B9E8C76549F1BF.sk1.us-west-2.eks.amazonaws.com';
+const currentUrl = window.location.hostname;
 const apiUrl = `https://${currentUrl}/backend`;
 
 async function fetchData() {
