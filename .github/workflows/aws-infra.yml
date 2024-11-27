@@ -6,7 +6,7 @@ on:
       resource_prefix:
         description: 'Prefix for resource name'
         required: true
-        default: '3tierdeployment'
+        default: '3tierdeployments'
       environment:
         description: 'Environment name'
         required: true
