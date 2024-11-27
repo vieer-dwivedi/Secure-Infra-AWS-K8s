@@ -65,7 +65,7 @@ eks:
     my_user_access:
       #kubernetes_groups:
       #  - "*"
-      principal_arn: "arn:aws:iam::${ACCOUNT_ID}:user/vieer.dubey@v2solutions.com"
+      principal_arn: "arn:aws:iam::${ACCOUNT_ID}:user/Vieer"
       policy_associations:
         admin:
           policy_arn: "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
