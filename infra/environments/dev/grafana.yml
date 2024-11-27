@@ -741,12 +741,17 @@ dashboards:
       gnetId: 13332
       datasource: Prometheus
 
+    application:
+      name: NodeJs Application
+      gnetId: 11159
+      datasource: Prometheus
+    
     aapi-server:
       name: Kubernetes apiserver
       gnetId: 12006
       datasource: Prometheus
     
-    application:
+    test:
       datasource: Prometheus
       json: |
         {
