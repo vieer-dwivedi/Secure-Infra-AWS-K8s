@@ -112,14 +112,14 @@ jobs:
           ls -l ./infra/environments/${{ env.ENVIRONMENT }}/config.yml
 
       # Temporary
-      - name: Debug CloudFront module directory
-        env:
-              ENVIRONMENT: ${{ env.environment }}
-        run: |
-          echo "Contents of CloudFront module directory:"
-          ls -R ./infra/environments/${{ env.ENVIRONMENT }}/cloudfront
-          echo "Current working directory:"
-          pwd
+      # - name: Debug CloudFront module directory
+      #   env:
+      #         ENVIRONMENT: ${{ env.environment }}
+      #   run: |
+      #     echo "Contents of CloudFront module directory:"
+      #     ls -R ./infra/environments/${{ env.ENVIRONMENT }}/cloudfront
+      #     echo "Current working directory:"
+      #     pwd
       
       # Temporary
       - name: Make destroy_resources.sh executable
