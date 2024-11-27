@@ -1,7 +1,7 @@
 tags: &tags
   Terraform: "true"
   Environment: "${ENVIRONMENT}"
-  Owner: "v2-devops"
+  Owner: "devops"
   Project: "${RESOURCE_PREFIX}"
 
 s3:
@@ -37,7 +37,7 @@ eks:
   include_oidc_root_ca_thumbprint: true
   enable_cluster_creator_admin_permissions: true
   kms_key_owners:
-    - "user/vieer.dubey@v2solutions.com"
+    - "user/Vieer"
   cluster_version: 1.29
   create_cloudwatch_log_group: true
   cluster_endpoint_public_access: true
