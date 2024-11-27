@@ -797,10 +797,11 @@ serverFiles:
         static_configs:
           - targets:
             - localhost:9090
-      - job_name: 'application'
+            
+      - job_name: 'Application'
         scrape_interval: 2s
         static_configs:
-          - targets: ['backend-application.default.svc.cluster.local']
+          - targets: ['tier.default.svc.cluster.local']
 
       # A scrape configuration for running Prometheus on a Kubernetes cluster.
       # This uses separate scrape configs for cluster components (i.e. API server, node)
