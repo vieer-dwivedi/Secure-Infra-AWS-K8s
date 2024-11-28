@@ -97,32 +97,6 @@ loadbalancer_controler:
       value: "${RESOURCE_PREFIX}-cluster-${ENVIRONMENT}"
     - key: replicaCount
       value: "1"
-
-rds:
-  name: "${RESOURCE_PREFIX}-db-${ENVIRONMENT}"
-  publicly_accessible: false
-  engine: "aurora-postgresql"
-  engine_version: "15.4"
-  instance_class: "db.t3.medium"
-  instance_type: "db.t3.medium"
-  db_subnet_group_name: "${RESOURCE_PREFIX}-db-subg-${ENVIRONMENT}"
-  create_db_subnet_group: true
-  instances:
-    one:
-      instance_class: "db.t3.medium"
-  database_name: "v2boilerplate"
-  master_username: "masteruser"
-  storage_encrypted: true
-  apply_immediately: true
-  monitoring_interval: 1
-  manage_master_user_password: true
-  manage_master_user_password_rotation: true
-  skip_final_snapshot: true
-  master_user_password_rotation_automatically_after_days: 1
-  master_user_password_rotate_immediately: true
-  tags: *tags
-
-
 ecr:
   repository_name: "${RESOURCE_PREFIX}-ecr-${ENVIRONMENT}"
   repository_lifecycle_policy: |
