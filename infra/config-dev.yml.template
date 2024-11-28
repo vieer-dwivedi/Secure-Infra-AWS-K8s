@@ -25,15 +25,15 @@ vpc:
     - "10.0.102.0/24"
     - "10.0.103.0/24"
   single_nat_gateway: true
-  enable_nat_gateway: false
+  enable_nat_gateway: true
   tags: *tags
   map_public_ip_on_launch: true
 
 eks:
   cluster_name: "${RESOURCE_PREFIX}-cluster-${ENVIRONMENT}"
   create_iam_role: true
-  deploy_worker_in_private_subnet: false
-  deploy_cluster_in_private_subnet: false
+  deploy_worker_in_private_subnet: true
+  deploy_cluster_in_private_subnet: true
   include_oidc_root_ca_thumbprint: true
   enable_cluster_creator_admin_permissions: true
   kms_key_owners:
