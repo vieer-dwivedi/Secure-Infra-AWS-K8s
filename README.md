@@ -9,7 +9,7 @@
 ## 📌 Table of Contents  
 
 📖 **[About](#-about)** – Overview of the project
-📊 **[Architecture Diagram](#-architecture-diagram)** -- Architecture Diagram
+📊 **[Architecture Diagram](#-architecture-diagram)** - Architecture Diagram
 ✨ **[Features](#-features)** – Key functionalities  
 🚀 **[Deployment](#-deployment)** – Setup and installation guide  
 🛠️ **[Usage](#-usage)** – How to use the script  
