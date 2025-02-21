@@ -1,5 +1,33 @@
-# Demonstration of Deployment
-This repo demonstrates a three tier application which contains UI, API and DB components
+# Project Name
 
-export RESOURCE_PREFIX=dev
-export AWS_REGION=us-west-2
+![Project Banner](https://via.placeholder.com/1200x400?text=Project+Banner)
+
+![GitHub stars](https://img.shields.io/github/stars/vieer-dwivedi/Secure-Infra-AWS-K8s?style=social)
+![GitHub forks](https://img.shields.io/github/forks/vieer-dwivedi/Secure-Infra-AWS-K8s?style=social)
+![GitHub issues](https://img.shields.io/github/issues/vieer-dwivedi/Secure-Infra-AWS-K8s)
+![GitHub license](https://img.shields.io/github/license/vieer-dwivedi/Secure-Infra-AWS-K8s)
+
+
+## 📌 Table of Contents
+
+- [About](#about)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
+
+## 📖 About
+
+A brief description of your project, what it does, and its purpose.
+
+## ✨ Features
+
+- ✅ Feature 1
+- ✅ Feature 2
+- ✅ Feature 3
+
+## 🚀 Installation
+
+1. Clone the repository:
