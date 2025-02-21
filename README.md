@@ -31,7 +31,7 @@
 ## 📊 Architecture Diagram  
 
 <p align="center">
-  <img src="[./Diagram.svg](https://raw.githubusercontent.com/vieer-dwivedi/Secure-Infra-AWS-K8s/refs/heads/main/Diagram.svg)" alt="Architecture Diagram">
+  <img src="./Diagram.svg" alt="Architecture Diagram">
 </p>
 
 
