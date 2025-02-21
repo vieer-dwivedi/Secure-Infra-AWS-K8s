@@ -12,7 +12,7 @@
 
 📊 **[Architecture Diagram](#-architecture-diagram)** - Architecture Diagram
 
-📽️ **[📽️ Demo Video](#watch-demo-video)** - 
+📽️ **[Demo Video](#watch-demo-video)** - Watch video
   
 ✨ **[Features](#-features)** – Key functionalities  
 
