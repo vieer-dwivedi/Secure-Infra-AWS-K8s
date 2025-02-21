@@ -8,15 +8,13 @@
 
 ## 📌 Table of Contents  
 
-## 📌 Table of Contents  
-
-📖 **[About](#about)** – Overview of the project  
-✨ **[Features](#features)** – Key functionalities  
-🚀 **[Deployment](#deployment)** – Setup and installation guide  
-🛠️ **[Usage](#usage)** – How to use the script  
+📖 **[About](#-about)** – Overview of the project  
+✨ **[Features](#-features)** – Key functionalities  
+🚀 **[Deployment](#-deployment)** – Setup and installation guide  
+🛠️ **[Usage](#-usage)** – How to use the script  
 🤝 **[Contributing](https://github.com/vieer-dwivedi/Secure-Infra-AWS-K8s/issues/new?template=Blank+issue)** – Open an issue to contribute  
-📜 **[License](#license)** – License details  
-📧 **[Contact](#contact)** – Get in touch  
+📜 **[License](#-license)** – License details  
+📧 **[Contact](#-contact)** – Get in touch  
 
 
 
