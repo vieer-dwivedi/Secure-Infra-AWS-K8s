@@ -8,7 +8,8 @@
 
 ## 📌 Table of Contents  
 
-📖 **[About](#-about)** – Overview of the project  
+📖 **[About](#-about)** – Overview of the project
+📊 **[Architecture Diagram](#-architecture-diagram)** -- Architecture Diagram
 ✨ **[Features](#-features)** – Key functionalities  
 🚀 **[Deployment](#-deployment)** – Setup and installation guide  
 🛠️ **[Usage](#-usage)** – How to use the script  
@@ -25,6 +26,13 @@
   It includes integrated monitoring using managed Grafana and Prometheus, ensuring real-time observability and security.  
   Additionally, it automates infrastructure deployment with built-in security measures, enhancing performance, reliability, and manageability.
 
+
+
+## 📊 Architecture Diagram  
+
+<p align="center">
+  <img src="./Diagram.svg" width="80%" alt="Architecture Diagram">
+</p>
 
 
 ## ✨ Features
