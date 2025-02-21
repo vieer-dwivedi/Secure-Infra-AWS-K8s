@@ -12,6 +12,8 @@
 
 📊 **[Architecture Diagram](#-architecture-diagram)** - Architecture Diagram
 
+📽️ **[📽️ Demo Video](#watch-demo-video)** - 
+  
 ✨ **[Features](#-features)** – Key functionalities  
 
 🚀 **[Deployment](#-deployment)** – Setup and installation guide  
@@ -41,6 +43,8 @@
   <img src="./Diagram.svg" alt="Architecture Diagram">
 </p>
 
+## Watch demo video
+[![Watch the video](https://img.youtube.com/vi/_tIlmKbC0vA/0.jpg)](https://www.youtube.com/watch?v=_tIlmKbC0vA)
 
 ## ✨ Features
 - ✅ Supports multi-tenant deployment  
