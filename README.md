@@ -1,6 +1,4 @@
-# Project Name
-
-![Project Banner](https://via.placeholder.com/1200x400?text=Project+Banner)
+# Most Secure Infra for EKS
 
 ![GitHub stars](https://img.shields.io/github/stars/vieer-dwivedi/Secure-Infra-AWS-K8s?style=social)
 ![GitHub forks](https://img.shields.io/github/forks/vieer-dwivedi/Secure-Infra-AWS-K8s?style=social)
