@@ -40,7 +40,7 @@
 ## 📊 Architecture Diagram  
 
 <p align="center">
-  <img src="./Diagram.svg" alt="Architecture Diagram">
+  <img src="./diagram.gif" alt="Architecture Diagram">
 </p>
 
 ## Watch demo video
